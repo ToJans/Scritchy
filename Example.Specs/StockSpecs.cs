@@ -46,7 +46,7 @@ namespace Example.Specs
         Because of =
             () => ApplyCommand(new RemoveItems { StockItemId = ItemId, Count = 2 });
 
-        It should_not_have_removed_the_count_from_the_stock =
+        It should_have_removed_the_count_from_the_stock =
             () => NewEvents.OfType<ItemsRemoved>().ShouldContain(x => x.StockItemId == ItemId && x.Count == 2);
     }
 }

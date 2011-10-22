@@ -22,6 +22,5 @@ namespace Example.Specs
 
         It should_have_a_matching_amount_of_the_second_item =
             () => Readmodel["Item/2"].ShouldEqual(7);
-
     }
 }

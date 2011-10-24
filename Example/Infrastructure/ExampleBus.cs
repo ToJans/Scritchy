@@ -28,7 +28,7 @@ namespace Example.Infrastructure
 
         public List<object> PublishedEvents = new List<object>();
 
-        protected override object LoadInstanceFromTypeWithId(System.Type type, string id)
+        protected override object LoadAR(System.Type type, string id)
         {
             var AR = Activator.CreateInstance(type) as ScratchAR;
             AR.Id = id;
@@ -40,6 +40,7 @@ namespace Example.Infrastructure
         protected override void SaveEvents(IEnumerable<object> events)
         {
             PublishedEvents.AddRange(events);
+            ApplyEventsToHandlers(events);
         }
 
         protected override object ResolveHandlerFromType(Type t)

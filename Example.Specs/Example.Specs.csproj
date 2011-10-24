@@ -31,12 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoTest.TestRunners.MSpec4">
-      <HintPath>..\Tools\AutoTest.Net-v1.3.1\TestRunners\MSpec4\AutoTest.TestRunners.MSpec4.dll</HintPath>
-    </Reference>
     <Reference Include="Machine.Specifications, Version=0.4.24.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Tools\AutoTest.Net-v1.3.1\TestRunners\MSpec4\Machine.Specifications.dll</HintPath>
+      <HintPath>..\packages\Machine.Specifications.0.4.24.0\lib\Machine.Specifications.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,9 +50,9 @@
     <Compile Include="_in_stock_context.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Example.Domain\Example.Domain.csproj">
+    <ProjectReference Include="..\Example\Example.csproj">
       <Project>{D70ABBA0-18B6-4B66-BD09-C2B101584B87}</Project>
-      <Name>Example.Domain</Name>
+      <Name>Example</Name>
     </ProjectReference>
     <ProjectReference Include="..\Scritchy.CQRS\Scritchy.CQRS.csproj">
       <Project>{3169C679-54AC-449F-A6FB-1431345CCADE}</Project>

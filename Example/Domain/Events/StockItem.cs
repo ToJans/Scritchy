@@ -1,5 +1,5 @@
 ﻿
-namespace Example.Domain.Implementation.Events
+namespace Example.Domain.Events
 {
     public class ItemsRemoved
     {

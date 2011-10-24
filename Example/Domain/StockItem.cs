@@ -1,4 +1,4 @@
-﻿namespace Example.Domain.Implementation
+﻿namespace Example.Domain
 {
     public class StockItem:Scritchy.CQRS.ScratchAR
     {

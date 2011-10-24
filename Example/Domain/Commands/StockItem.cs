@@ -1,4 +1,4 @@
-﻿namespace Example.Domain.Implementation.Commands
+﻿namespace Example.Domain.Commands
 {
     public class AddItems
     {

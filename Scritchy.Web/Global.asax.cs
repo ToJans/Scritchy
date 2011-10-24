@@ -6,8 +6,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Ninject.Web.Mvc;
 using Ninject;
-using Example.Domain.Infrastructure;
-using Example.Domain.Implementation.Readmodel;
+using Example.Infrastructure;
+using Example.Domain.Readmodel;
 
 namespace Scritchy.Web
 {

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using Example.Domain.Implementation.Commands;
-using Example.Domain.Implementation.Events;
 using Machine.Specifications;
+using Example.Domain.Commands;
+using Example.Domain.Events;
 
 namespace Example.Specs
 {

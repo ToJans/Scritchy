@@ -107,9 +107,9 @@
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Example.Domain\Example.Domain.csproj">
+    <ProjectReference Include="..\Example\Example.csproj">
       <Project>{D70ABBA0-18B6-4B66-BD09-C2B101584B87}</Project>
-      <Name>Example.Domain</Name>
+      <Name>Example</Name>
     </ProjectReference>
     <ProjectReference Include="..\Scritchy.CQRS\Scritchy.CQRS.csproj">
       <Project>{3169C679-54AC-449F-A6FB-1431345CCADE}</Project>

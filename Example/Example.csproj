@@ -8,8 +8,8 @@
     <ProjectGuid>{D70ABBA0-18B6-4B66-BD09-C2B101584B87}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Example.Domain</RootNamespace>
-    <AssemblyName>Example.Domain</AssemblyName>
+    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>Example</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,10 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementation\Commands\StockItem.cs" />
-    <Compile Include="Implementation\Readmodel\StockDictionary.cs" />
-    <Compile Include="Implementation\StockItem.cs" />
-    <Compile Include="Implementation\Events\StockItem.cs" />
+    <Compile Include="Domain\Commands\StockItem.cs" />
+    <Compile Include="Domain\Readmodel\StockDictionary.cs" />
+    <Compile Include="Domain\StockItem.cs" />
+    <Compile Include="Domain\Events\StockItem.cs" />
     <Compile Include="Infrastructure\ExampleBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Example.Domain.Implementation;
-using Example.Domain.Implementation.Commands;
-using Example.Domain.Implementation.Events;
-using Example.Domain.Implementation.Readmodel;
+using Example.Domain;
+using Example.Domain.Commands;
+using Example.Domain.Events;
+using Example.Domain.Readmodel;
 using Scritchy.CQRS;
 
-namespace Example.Domain.Infrastructure
+namespace Example.Infrastructure
 {
     public class ExampleBus : ScratchBus
     {

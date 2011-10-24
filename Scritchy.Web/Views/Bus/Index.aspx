@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<Example.Domain.Implementation.Readmodel.StockDictionary>" %>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<Example.Domain.Readmodel.StockDictionary>" %>
 <%@ import Namespace="Scritchy.Web.Helpers" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -32,7 +32,7 @@
     <h3>Commands</h3>
     <h4>Add Items</h4>
         <% using (Html.BeginForm("Command", "Bus")){ %>
-                <input type="hidden" name="commandtype" value="<%=typeof(Example.Domain.Implementation.Commands.AddItems).FullName %>" />
+                <input type="hidden" name="commandtype" value="<%=typeof(Example.Domain.Commands.AddItems).FullName %>" />
                 <label for="StockItemId">Id</label>
                 <input type="text" name="StockItemId" value="item/1" />
                 <label for="Count">Count</label>
@@ -41,7 +41,7 @@
          <% }%>
     <h4>Remove Items</h4>
         <% using (Html.BeginForm("Command", "Bus")){ %>
-                <input type="hidden" name="commandtype" value="<%=typeof(Example.Domain.Implementation.Commands.RemoveItems).FullName %>" />
+                <input type="hidden" name="commandtype" value="<%=typeof(Example.Domain.Commands.RemoveItems).FullName %>" />
                 <label for="StockItemId">Id</label>
                 <input type="text" name="StockItemId" value="item/1" />
                 <label for="Count">Count</label>

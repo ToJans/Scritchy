@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Example.Domain.Infrastructure;
+using Example.Domain.Readmodel;
+using Example.Infrastructure;
 using Machine.Specifications;
-using Example.Domain.Implementation.Readmodel;
 
 namespace Example.Specs
 {

@@ -9,7 +9,7 @@ using Ninject;
 using Example.Infrastructure;
 using Example.Domain.Readmodel;
 
-namespace Scritchy.Web
+namespace Example.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801

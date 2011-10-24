@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Scritchy.Web.Helpers
+namespace Example.Web.Helpers
 {
     public static class HtmlHelperExtensions
     {

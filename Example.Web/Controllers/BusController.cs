@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 using System.IO;
 using Example.Domain.Readmodel;
 
-namespace Scritchy.Web.Controllers
+namespace Example.Web.Controllers
 {
     public class BusController : Controller
     {

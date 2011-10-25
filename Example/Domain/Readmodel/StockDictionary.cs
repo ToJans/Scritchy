@@ -1,8 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace Example.Domain.Readmodel 
+namespace Example.Domain.Readmodel
 {
-    public class StockDictionary : Dictionary<string, int> { }
+    public class StockListItem
+    {
+        public string Name { get; set; }
+        public int Amount { get; set; }
+    }
+
+    public class StockDictionary : Dictionary<string, StockListItem> { }
 
     public class StockDictionaryHandler
     {
@@ -13,26 +20,27 @@ namespace Example.Domain.Readmodel
             this.instance = instance;
         }
 
-        public void OnItemsAdded(string StockItemId, int Count)
+        public void OnItemAllowed(string StockItemId, string Name)
         {
-            VerifyExists(StockItemId);
-            instance[StockItemId] += Count;
+            instance.Add(StockItemId, new StockListItem { Name = Name, Amount = 0 });
         }
 
-        public void OnItemsRemoved(string StockItemId, int Count)
+        public void OnItemBanned(string StockItemId)
         {
-            VerifyExists(StockItemId);
-            instance[StockItemId] -= Count;
-            if (instance[StockItemId] == 0)
-                instance.Remove(StockItemId);
+            instance.Remove(StockItemId);
         }
 
-        void VerifyExists(string StockItemId)
+        public void OnItemsAdded(string StockItemId, int Amount)
         {
-            if (!instance.ContainsKey(StockItemId))
-                instance.Add(StockItemId, 0);
+            instance[StockItemId].Amount += Amount;
         }
 
-    
+        public void OnItemsRemoved(string StockItemId, int Amount)
+        {
+            instance[StockItemId].Amount -= Amount;
+        }
+
+
+
     }
 }

@@ -8,6 +8,8 @@ using Ninject.Web.Mvc;
 using Ninject;
 using Example.Infrastructure;
 using Example.Domain.Readmodel;
+using Scritchy.CQRS;
+using Example.Web.Controllers;
 
 namespace Example.Web
 {
@@ -39,8 +41,10 @@ namespace Example.Web
         {
             var kernel = new StandardKernel();
             kernel.Bind<ExampleBus>().ToMethod(k=>new ExampleBus(t=>k.Kernel.Get(t))).InSingletonScope();
-            kernel.Bind<StockDictionary>().ToSelf().InSingletonScope();
             kernel.Bind<StockDictionaryHandler>().ToSelf().InSingletonScope();
+            kernel.Bind<StockDictionary>().ToConstant(new StockDictionary());
+            var l = new List<FailedCommandException>();
+            kernel.Bind<BusController.FailedCommandExceptionList>().ToSelf().InSingletonScope();
             return kernel;
         }
 

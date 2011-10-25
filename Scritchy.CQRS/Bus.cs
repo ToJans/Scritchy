@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Scritchy.CQRS
 {
-    public abstract class ScratchBus
+    public abstract class Bus
     {
         class CommandInfo
         {
@@ -14,7 +14,7 @@ namespace Scritchy.CQRS
             public Func<object, string> GetId = null;
             public Type ARType = null;
 
-            public static CommandInfo Create<AR,CMD>(Func<CMD, string> GetId, Func<CMD, IEnumerable<object>> Runner) 
+            public static CommandInfo Create<AR, CMD>(Func<CMD, string> GetId, Func<CMD, IEnumerable<object>> Runner)
             {
                 var ci = new CommandInfo()
                 {
@@ -31,7 +31,7 @@ namespace Scritchy.CQRS
 
         Dictionary<string, CommandInfo> RunnerForCommandTypeName = new Dictionary<string, CommandInfo>();
 
-        abstract protected object LoadAR(Type type,string Id);
+        abstract protected object LoadAR(Type type, string Id);
         abstract protected void SaveEvents(IEnumerable<object> events);
         abstract protected object ResolveHandlerFromType(Type t);
 
@@ -39,13 +39,22 @@ namespace Scritchy.CQRS
         public void RunCommand(object command)
         {
             var name = command.GetType().Name;
-            var events = RunnerForCommandTypeName[name].Runner(command);
+            var runner = RunnerForCommandTypeName[name].Runner;
+            IEnumerable<object> events = new object[] { };
+            try
+            {
+                events = runner(command);
+            }
+            catch (TargetInvocationException e)
+            {
+                throw new FailedCommandException(e.InnerException,command);
+            }
             SaveEvents(events);
         }
 
-        public ScratchBus RegisterCommandHandlers(IEnumerable<Type> HandlerTypes, IEnumerable<Type> CommandTypes)
+        public Bus RegisterCommandHandlers(IEnumerable<Type> HandlerTypes, IEnumerable<Type> CommandTypes)
         {
-            var ct = CommandTypes.ToDictionary(x=>x.Name,x=>x);
+            var ct = CommandTypes.ToDictionary(x => x.Name, x => x);
             dynamic self = this;
             foreach (var ht in HandlerTypes)
             {
@@ -61,11 +70,11 @@ namespace Scritchy.CQRS
             return this;
         }
 
-        ScratchBus RegisterCommand(Type ARType, Type CommandType)
+        Bus RegisterCommand(Type ARType, Type CommandType)
         {
             var key = CommandType.Name;
-            var idname = ARType.Name+"Id";
-            Func<object,string> GetId = x => CommandType.GetProperty(idname).GetValue(x,null) as string;
+            var idname = ARType.Name + "Id";
+            Func<object, string> GetId = x => CommandType.GetProperty(idname).GetValue(x, null) as string;
             RunnerForCommandTypeName[key] = new CommandInfo()
             {
                 ARType = ARType,
@@ -74,16 +83,16 @@ namespace Scritchy.CQRS
                 {
                     var AR = LoadAR(ARType, GetId(cmd));
                     AR.TryToExecuteSerializedMethodCall(cmd);
-                    return (AR as ScratchAR) .Changes.GetPublishedEvents();
+                    return (AR as AR).Changes.GetPublishedEvents();
                 }
             };
             return this;
         }
 
-        public ScratchBus RegisterCommand<TAR, TCommand>(Func<TCommand, string> GetId) where TAR : ScratchAR, new()
+        public Bus RegisterCommand<TAR, TCommand>(Func<TCommand, string> GetId) where TAR : AR, new()
         {
             var key = typeof(TCommand).Name;
-            RunnerForCommandTypeName[key] = CommandInfo.Create<TAR,TCommand>(
+            RunnerForCommandTypeName[key] = CommandInfo.Create<TAR, TCommand>(
                 x => GetId(x),
                 cmd =>
                 {
@@ -103,7 +112,7 @@ namespace Scritchy.CQRS
 
         List<EventHandlerReference> EventHandlers = new List<EventHandlerReference>();
 
-        public ScratchBus RegisterEventHandlers(IEnumerable<Type> Handlers, IEnumerable<Type> EventTypes)
+        public Bus RegisterEventHandlers(IEnumerable<Type> Handlers, IEnumerable<Type> EventTypes)
         {
             foreach (var h in Handlers)
             {
@@ -126,17 +135,17 @@ namespace Scritchy.CQRS
             return EventHandlers.Where(x => x.HandlerType == HandlerType).Select(x => x.EventType).Distinct();
         }
 
-        protected Predicate<object> EventFilterForARInstance(Type TAR,string ARId)
+        protected Predicate<object> EventFilterForARInstance(Type TAR, string ARId)
         {
             var types = EventTypesForHandler(TAR);
             return x => EventHandlers.Any(y =>
                 y.EventType == x.GetType() &&
-                y.HandlerType == TAR && 
-                (y.EventType.GetProperty(TAR.Name+"Id").GetValue(x,null) as string)== ARId
+                y.HandlerType == TAR &&
+                (y.EventType.GetProperty(TAR.Name + "Id").GetValue(x, null) as string) == ARId
                 );
         }
 
-        protected void ApplyEventsToInstance(object AR,IEnumerable<object> events) 
+        protected void ApplyEventsToInstance(object AR, IEnumerable<object> events)
         {
             foreach (var e in events)
             {
@@ -148,9 +157,9 @@ namespace Scritchy.CQRS
         {
             foreach (var e in events)
             {
-                foreach(var k in EventHandlers.Where(x=>x.EventType == e.GetType()))
+                foreach (var k in EventHandlers.Where(x => x.EventType == e.GetType()))
                 {
-                    if (k.HandlerType.IsSubclassOf(typeof(ScratchAR))) // skip AR's
+                    if (k.HandlerType.IsSubclassOf(typeof(AR))) // skip AR's
                         continue;
                     var handler = ResolveHandlerFromType(k.HandlerType);
                     handler.TryToExecuteSerializedMethodCall(e, "On");

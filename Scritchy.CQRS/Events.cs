@@ -6,11 +6,11 @@ using System.Dynamic;
 
 namespace Scritchy.CQRS
 {
-    public class ScratchEvents
+    public class Events
     {
         object state;
         List<object> PublishedEvents = new List<object>();
-        public ScratchEvents(object state)
+        public Events(object state)
         {
             this.state = state;
         }
@@ -20,7 +20,7 @@ namespace Scritchy.CQRS
             return PublishedEvents;
         }
 
-        public static ScratchEvents operator +(ScratchEvents e, object newevent)
+        public static Events operator +(Events e, object newevent)
         {
             e.PublishedEvents.Add(newevent);
             ReflectionHelper.TryToExecuteSerializedMethodCall(e.state, newevent, "On");

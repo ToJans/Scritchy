@@ -44,8 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StockReadModelSpecs.cs" />
-    <Compile Include="StockSpecs.cs" />
+    <Compile Include="StockItem modify quantities.cs" />
+    <Compile Include="StockItem readmodel.cs" />
+    <Compile Include="StockItem allowed or banned.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_in_stock_context.cs" />
   </ItemGroup>

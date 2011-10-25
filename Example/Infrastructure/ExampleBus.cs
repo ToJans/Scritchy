@@ -9,7 +9,7 @@ using Scritchy.CQRS;
 
 namespace Example.Infrastructure
 {
-    public class ExampleBus : ScratchBus
+    public class ExampleBus : Bus
     {
         Func<Type, object> LoadHandler;
 
@@ -30,7 +30,7 @@ namespace Example.Infrastructure
 
         protected override object LoadAR(System.Type type, string id)
         {
-            var AR = Activator.CreateInstance(type) as ScratchAR;
+            var AR = Activator.CreateInstance(type) as AR;
             AR.Id = id;
             var filter = base.EventFilterForARInstance(type, id);
             ApplyEventsToInstance(AR, PublishedEvents.Where(x => filter(x)));
@@ -40,6 +40,7 @@ namespace Example.Infrastructure
         protected override void SaveEvents(IEnumerable<object> events)
         {
             PublishedEvents.AddRange(events);
+            // this could be something async, or running on another server
             ApplyEventsToHandlers(events);
         }
 

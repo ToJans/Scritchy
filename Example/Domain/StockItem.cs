@@ -1,28 +1,54 @@
 ﻿namespace Example.Domain
 {
-    public class StockItem:Scritchy.CQRS.ScratchAR
+    public class StockItem : Scritchy.CQRS.AR
     {
-        int Count = 0;
+        int Amount = 0;
+        bool IsAllowed = false;
 
-        public void AddItems(int Count)
+        public void AllowItem(string Name)
         {
-            Changes+= new Events.ItemsAdded { StockItemId = Id, Count = Count };
+            if (IsAllowed == true) return;
+            Changes += new Events.ItemAllowed { StockItemId = Id, Name = Name };
         }
 
-        public void RemoveItems(int Count)
+        public void BanItem()
         {
-            if (this.Count >= Count)
-                Changes += new Events.ItemsRemoved { StockItemId = Id, Count = Count };
+            if (IsAllowed == false) return;
+            Guard.Against(Amount > 0, "An item that is in stock can not be banned");
+            Changes += new Events.ItemBanned { StockItemId = Id };
         }
 
-        public void OnItemsAdded(int Count)
+        public void AddItems(int Amount)
         {
-            this.Count += Count;
+            Guard.Against(IsAllowed == false, "An item of this type is not allowed in the stock");
+            Changes += new Events.ItemsAdded { StockItemId = Id, Amount = Amount };
         }
 
-        public void OnItemsRemoved(int Count)
+        public void RemoveItems(int Amount)
         {
-            this.Count -= Count;
+            Guard.Against(IsAllowed == false, "An item of this type is not allowed in the stock");
+            Guard.Against(this.Amount < Amount, "You do not have enough stock left to remove this amount of items");
+            Changes += new Events.ItemsRemoved { StockItemId = Id, Amount = Amount };
+        }
+
+        public void OnItemsAdded(int Amount)
+        {
+            this.Amount += Amount;
+        }
+
+        public void OnItemsRemoved(int Amount)
+        {
+            this.Amount -= Amount;
+        }
+
+        public void OnItemAllowed()
+        {
+            IsAllowed = true;
+        }
+
+        public void OnItemBanned()
+        {
+            IsAllowed = false;
         }
     }
 }

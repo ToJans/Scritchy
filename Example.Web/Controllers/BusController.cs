@@ -9,33 +9,46 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using Example.Domain.Readmodel;
+using Scritchy.CQRS;
 
 namespace Example.Web.Controllers
 {
+
     public class BusController : Controller
     {
+        public class FailedCommandExceptionList : List<FailedCommandException>
+        { 
+        }
+
         ExampleBus bus;
         StockDictionary readmodel;
+        FailedCommandExceptionList FailedCommands;
 
-        public BusController(ExampleBus bus,StockDictionary readmodel)
+        public BusController(ExampleBus bus, StockDictionary readmodel, FailedCommandExceptionList FailedCommands)
         {
             this.bus = bus;
             this.readmodel = readmodel;
+            this.FailedCommands = FailedCommands;
         }
-
-        //
-        // GET: /Bus/
 
         public ActionResult Index()
         {
             base.ViewData.Add("PublishedEvents", bus.PublishedEvents);
+            base.ViewData.Add("FailedCommands", FailedCommands);
             return View(readmodel);
         }
 
         public ActionResult Command(string commandtype)
         {
             object command = LoadObjectValuesFromRequestForm(commandtype);
-            bus.RunCommand(command);
+            try
+            {
+                bus.RunCommand(command);
+            }
+            catch (FailedCommandException e)
+            {
+                FailedCommands.Add(e);
+            }
             return this.RedirectToAction("Index");
         }
 

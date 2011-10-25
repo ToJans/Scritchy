@@ -20,15 +20,26 @@ namespace Scritchy.CQRS
             var pars = new List<object>();
             foreach (var p in sm.GetParameters())
             {
-                var cp = et.GetProperties().Where(x => x.Name == p.Name).Select(x => new { t = x.PropertyType, val = x.GetValue(serializedMethodCall, null) })
-                    .Union(et.GetFields().Where(x => x.Name == p.Name).Select(x => new { t = x.FieldType, val = x.GetValue(serializedMethodCall) }));
+                var cp = et.GetProperties()
+                    .Where(x => x.Name == p.Name)
+                    .Select(x => new { t = x.PropertyType, val = x.GetValue(serializedMethodCall, null) });
                 if (cp.Count() == 0)
                 {
-                    pars.Add(p.ParameterType.IsValueType ? Activator.CreateInstance(p.ParameterType) : null);
+                    var s = string.Format("Missing parameter {0}.{1} for method {2}.{3}",et.Name,p.Name,state.GetType().Name,sm.Name);
+                    throw new InvalidOperationException(s);
+                    //pars.Add(p.ParameterType.IsValueType ? Activator.CreateInstance(p.ParameterType) : null);
                 }
                 else
                 {
-                    pars.Add(Convert.ChangeType(cp.First().val, p.ParameterType));
+                    try
+                    {
+                        pars.Add(Convert.ChangeType(cp.First().val, p.ParameterType));
+                    }
+                    catch (Exception)
+                    {
+                        var s = string.Format("parameter {0}.{1} can not be converted to from {4} to {5} for method {2}.{3}", et.Name, p.Name, state.GetType().Name, sm.Name,cp.First().t.Name, p.ParameterType.Name);
+                        throw new InvalidOperationException(s);
+                    }
                 }
             }
             sm.Invoke(state, pars.ToArray());

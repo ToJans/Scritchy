@@ -10,7 +10,7 @@ namespace Example.Web.Helpers
     {
         public static string Dump(this HtmlHelper h,Object obj)
         {
-            string dump = obj.GetType().Name + "\n";
+            string dump = "<ul>";
             try
             {
                 Dictionary<string, string> dictionary =
@@ -26,7 +26,7 @@ namespace Example.Web.Helpers
                 }
                 foreach (System.Collections.Generic.KeyValuePair<string, string> pair in dictionary)
                 {
-                    dump += string.Format("\t{0}\t{1}\n", pair.Key, pair.Value);
+                    dump += string.Format("<li>{0}={1}</li>", pair.Key, pair.Value);
                 }
             }
             catch (Exception ex)
@@ -39,7 +39,7 @@ namespace Example.Web.Helpers
                     "\n\tStack: \n" + ex.StackTrace +
                     "\n------------------------------------");
             }
-            return dump;
+            return dump+"</ul>";
         }
 
     }

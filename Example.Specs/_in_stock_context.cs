@@ -12,6 +12,7 @@ namespace Example.Specs
         static ExampleBus SUT;
         static int neweventindex = 0;
         protected static StockDictionary Readmodel;
+        protected static Exception Exception;
 
         protected const string ItemId = "Item/1";
 
@@ -35,12 +36,10 @@ namespace Example.Specs
             SUT.RunCommand(command);
         }
 
-        protected static IEnumerable<object> NewEvents
+        protected static IEnumerable<T> ResultingEvents<T>(Predicate<T> pred=null)
         {
-            get
-            {
-                return SUT.PublishedEvents.Skip(neweventindex);
-            }
+            if (pred == null) pred = x=>true;
+            return SUT.PublishedEvents.Skip(neweventindex).OfType<T>().Where(x=>pred(x));
         }
 
         protected static void ApplyEvents(params object[] events)
@@ -48,5 +47,11 @@ namespace Example.Specs
             SUT.PublishedEvents.AddRange(events);
             SUT.ApplyEventsToHandlers(events);
         }
+
+        protected static void Try(Action a)
+        {
+            Exception = Catch.Exception(a);
+        }
+
     }
 }

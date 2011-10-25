@@ -43,7 +43,6 @@ namespace Example.Web
             kernel.Bind<ExampleBus>().ToMethod(k=>new ExampleBus(t=>k.Kernel.Get(t))).InSingletonScope();
             kernel.Bind<StockDictionaryHandler>().ToSelf().InSingletonScope();
             kernel.Bind<StockDictionary>().ToConstant(new StockDictionary());
-            var l = new List<FailedCommandException>();
             kernel.Bind<BusController.FailedCommandExceptionList>().ToSelf().InSingletonScope();
             return kernel;
         }

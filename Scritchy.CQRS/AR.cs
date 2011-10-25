@@ -17,7 +17,7 @@ namespace Scritchy.CQRS
 
         // inspired by @yreynhout:
         // url: http://seabites.wordpress.com/2010/10/31/guards-and-queries-in-the-domain-model/
-        public static class Guard
+        protected static class Guard
         {
             public static void Against(bool assertion,string message=null)
             {

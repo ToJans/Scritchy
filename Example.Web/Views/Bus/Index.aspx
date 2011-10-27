@@ -151,9 +151,9 @@
     </div>
     </div>
     <div class="box left">
-    <h3>Executed commands</h3>
+    <h3>Most recent commands</h3>
     <ul>
-        <% foreach (var e in ViewData["ExecutedCommands"] as IEnumerable<dynamic>)
+        <% foreach (var e in (ViewData["RecentCommands"] as dynamic).Items as IEnumerable<dynamic>)
            { 
                string msgclass=e.Message=="OK"?"success":"failure";%>
             <li class="<%= msgclass %>" > <%=(e.Command as object).GetType().Name%>: <b><%= e.Message %></b>

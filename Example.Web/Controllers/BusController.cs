@@ -17,26 +17,42 @@ namespace Example.Web.Controllers
 
     public class BusController : Controller
     {
-        public class FailedCommandExceptionList : List<FailedCommandException>
-        { 
+        public class CommandHistory
+        {
+            List<FailedCommandException> hist = new List<FailedCommandException>();
+
+            public void Add(FailedCommandException ex)
+            {
+                hist.Insert(0,ex);
+                if (hist.Count > 20)
+                    hist = hist.Take(20).ToList();
+            }
+
+            public IEnumerable<FailedCommandException> Items
+            {
+                get
+                {
+                    return hist;
+                }
+            }
         }
 
         ICommandBus bus;
         IEventApplier applier;
         StockDictionary readmodel;
-        FailedCommandExceptionList ExecutedCommands;
+        CommandHistory cmdhist;
 
-        public BusController(ICommandBus bus, IEventApplier applier,StockDictionary readmodel, FailedCommandExceptionList FailedCommands)
+        public BusController(ICommandBus bus, IEventApplier applier, StockDictionary readmodel, CommandHistory cmdhist)
         {
             this.bus = bus;
             this.readmodel = readmodel;
-            this.ExecutedCommands = FailedCommands;
+            this.cmdhist = cmdhist;
             this.applier = applier;
         }
 
         public ActionResult Index()
         {
-            base.ViewData.Add("ExecutedCommands", ExecutedCommands);
+            base.ViewData.Add("RecentCommands", cmdhist);
             return View(readmodel);
         }
 
@@ -47,11 +63,11 @@ namespace Example.Web.Controllers
             {
                 bus.RunCommand(command);
                 applier.ApplyNewEventsToAllHandlers();
-                ExecutedCommands.Add(new FailedCommandException(new Exception("OK"), command));
+                cmdhist.Add(new FailedCommandException(new Exception("OK"), command));
             }
             catch (FailedCommandException e)
             {
-                ExecutedCommands.Add(e);
+                cmdhist.Add(e);
             }
             return this.RedirectToAction("Index");
         }

@@ -11,6 +11,7 @@ using Example.Domain.Readmodel;
 using Example.Web.Controllers;
 using Scritchy.Infrastructure;
 using Scritchy.Infrastructure.Implementations;
+using Scritchy.Infrastructure.Exceptions;
 
 namespace Example.Web
 {
@@ -42,6 +43,7 @@ namespace Example.Web
         {
             var kernel = new StandardKernel();
             kernel.Bind<ICommandBus>().To<CommandBus>().InSingletonScope(); ;
+            kernel.Bind<BusController.CommandHistory>().ToSelf().InSingletonScope();
             kernel.Bind<IEventApplier>().To<EventApplier>().InSingletonScope();
             kernel.Bind<IEventStore>().To<InMemoryEventStore>().InSingletonScope();
             kernel.Bind<IHandlerInstanceResolver>().ToMethod(c => new HandlerInstanceResolver(
@@ -51,7 +53,6 @@ namespace Example.Web
             kernel.Bind<HandlerRegistry>().To<ExampleRegistry>().InSingletonScope();
             kernel.Bind<StockDictionaryHandler>().ToSelf().InSingletonScope();
             kernel.Bind<StockDictionary>().ToConstant(new StockDictionary());
-            kernel.Bind<BusController.FailedCommandExceptionList>().ToSelf().InSingletonScope();
             return kernel;
         }
 

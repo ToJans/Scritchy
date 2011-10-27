@@ -6,10 +6,139 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>Index</title>
+    <style type="text/css">
+        h1
+        {
+            display:block;
+            padding-left:90px;
+            background-image: url("/content/scritchy-small.png");
+            background-repeat:no-repeat;
+            background-position:10px 10px;
+            font-size:80px;
+            border-top: 2px black dotted;
+            border-bottom: 2px black dotted;
+            height:120px;
+            padding-top:10px;
+        }
+        
+        body
+        {
+            margin: 0;
+            padding: 10px;
+            font-family:Arial;
+        }
+        .middle 
+        {
+            color:Black;
+            background:yellow;
+            margin:0;
+            border-left:grey 260px solid;
+            border-right:grey 260px solid;
+            padding:10px;
+            min-height:1000px;
+        }
+        
+        .box
+        {
+            background:white;
+            border:black 1px solid;
+            position:fixed;
+            top:30px;
+            width:220px;
+            padding:10px;
+        }
+        
+        .left
+        {
+           left:20px;
+        }
+        
+        .right
+        {
+            right:20px;
+        }
+        
+        label
+        {
+            display:inline-block;
+            width:80px;
+        }
+        
+        form 
+        {
+            border:1px dashed grey;
+            padding:5px;
+        }
+        
+        input 
+        {
+            display:inline-block;
+            width:120px;
+        }
+        .success
+        {
+            color:Green;
+        }
+        
+        .failure
+        {
+            color:Red;
+        }
+        
+        .stocklist
+        {
+            background-color:White;
+            width:70%;
+            display:inline-block;
+            border:1px black solid;
+            padding:10px;
+        }
+        
+        .stocklist > h3
+        {
+            text-decoration:underline;
+        }
+    </style>
 </head>
 <body>
-    <div style="float:left;border:1px solid black">
-    <h3>Stock</h3>
+    <div class="middle">
+    <h1>Scritchy</h1> 
+    <h2>CQRS without the plumbing - Example app</h2>
+    <p>
+        This example app shows how you can implement a CQRS app without to much effort using the Scritchy libraries.
+    </p>
+    <p>
+        More info and full source over at <a href="http://github.com/ToJans/Scritchy" target="_blank">github</a>.
+    </p>
+    <p>You find the example code in the following locations: 
+    <ul>
+    <li>
+        <i>Domain logic</i> in the <a href="https://github.com/ToJans/Scritchy/blob/master/Example/Domain/StockItem.cs" target="_blank">Example.Domain.StockItem class</a>.
+    </li>
+    <li>
+        <i>Commands</i> in the <a href="https://github.com/ToJans/Scritchy/tree/master/Example/Domain/Commands" target"_blank">Example.Domain.Commands folder</a>.
+    </li>
+    <li>
+        <i>Events</i> in the <a href="https://github.com/ToJans/Scritchy/tree/master/Example/Domain/Events" target"_blank">Example.Domain.Events folder</a>.
+    </li>
+    <li>
+        <i>View builder</i> in the <a href="https://github.com/ToJans/Scritchy/blob/master/Example/Domain/Readmodel/StockDictionary.cs" target="_blank">Example.Domain.Readmodel.StockDictionaryHandler class</a>.
+    </li>
+    </ul>
+    
+    <p>
+        Enjoy!
+    </p>
+    <p><a href="http://twitter.com/#/ToJans" target="_blank">ToJans@Twitter</a></p>
+    <div class="stocklist">
+    <h3>This is the example of a stocklist</h3>
+    </p>
+    <% if (Model.Count == 0)
+       {%>
+       <b>Currently there are no items allowed in your stocklist</b>
+    <% }
+       else
+       { %>
     <ul>
     <% foreach (var k in Model.Keys)
        { %>
@@ -18,19 +147,22 @@
             </li>
     <% } %>
     </ul>
+    <% } %>
     </div>
-    <div style="float:left;border:1px solid black">
-    <h3>Failed commands</h3>
+    </div>
+    <div class="box left">
+    <h3>Executed commands</h3>
     <ul>
-        <% foreach (var e in ViewData["FailedCommands"] as IEnumerable<dynamic>)
-           { %>
-            <li><%=(e.Command as object).GetType().Name%>: <%= e.Message %>
+        <% foreach (var e in ViewData["ExecutedCommands"] as IEnumerable<dynamic>)
+           { 
+               string msgclass=e.Message=="OK"?"success":"failure";%>
+            <li class="<%= msgclass %>" > <%=(e.Command as object).GetType().Name%>: <b><%= e.Message %></b>
                 <%= Html.Dump(e.Command as object) %>
             </li>           
             <% } %>
     </ul>
     </div>
-    <div style="float:left;border:1px solid black">
+    <div class="box right">
     <h3>Commands</h3>
     <h4>Allow Item</h4>
         <% using (Html.BeginForm("Command", "Bus")){ %>

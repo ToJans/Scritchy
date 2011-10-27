@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3169C679-54AC-449F-A6FB-1431345CCADE}</ProjectGuid>
+    <ProjectGuid>{085412FE-55C2-4AC5-8B37-1638BF953CCF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Scritchy.CQRS</RootNamespace>
-    <AssemblyName>Scritchy.CQRS</AssemblyName>
+    <RootNamespace>Scritchy.Infrastructure</RootNamespace>
+    <AssemblyName>Scritchy.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,18 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\CommandBus.cs" />
-    <Compile Include="Infrastructure\HandlerInstanceResolver.cs" />
-    <Compile Include="Infrastructure\EventApplier.cs" />
-    <Compile Include="Infrastructure\HandlerRegistry.cs" />
-    <Compile Include="Infrastructure\InMemoryEventStore.cs" />
     <Compile Include="Exceptions\FailedCommandException.cs" />
-    <Compile Include="InfrastuctureInterfaces.cs" />
-    <Compile Include="Infrastructure\ReflectionHelper.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AR.cs" />
-    <Compile Include="Events.cs" />
     <Compile Include="Exceptions\SaveEventsException.cs" />
+    <Compile Include="Implementations\CommandBus.cs" />
+    <Compile Include="Implementations\EventApplier.cs" />
+    <Compile Include="Implementations\HandlerInstanceResolver.cs" />
+    <Compile Include="Implementations\HandlerRegistry.cs" />
+    <Compile Include="Implementations\InMemoryEventStore.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Interfaces.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Scritchy.Domain\Scritchy.Domain.csproj">
+      <Project>{23B6186A-962F-43C5-9ED4-3E7D75B9DE2D}</Project>
+      <Name>Scritchy.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

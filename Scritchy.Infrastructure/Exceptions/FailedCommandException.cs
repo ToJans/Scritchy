@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Scritchy.CQRS
+namespace Scritchy.Infrastructure.Exceptions
 {
     public class FailedCommandException:Exception
     {

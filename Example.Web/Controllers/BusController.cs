@@ -9,7 +9,8 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using Example.Domain.Readmodel;
-using Scritchy.CQRS;
+using Scritchy.Infrastructure;
+using Scritchy.Infrastructure.Exceptions;
 
 namespace Example.Web.Controllers
 {

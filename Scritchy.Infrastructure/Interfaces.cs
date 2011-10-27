@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 
-namespace Scritchy.CQRS
+namespace Scritchy.Infrastructure
 {
     public interface IEventStore
     {
@@ -27,7 +27,7 @@ namespace Scritchy.CQRS
     
     public interface IHandlerInstanceResolver
     {
-        AR LoadARSnapshot(Type t, string Id);
+        Scritchy.Domain.AR LoadARSnapshot(Type t, string Id);
         object ResolveHandlerFromType(Type t);
     }
 }

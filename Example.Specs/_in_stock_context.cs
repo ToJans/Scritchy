@@ -4,8 +4,8 @@ using System.Linq;
 using Example.Domain.Readmodel;
 using Example.Infrastructure;
 using Machine.Specifications;
-using Scritchy.CQRS;
-using Scritchy.CQRS.Infrastructure;
+using Scritchy.Infrastructure;
+using Scritchy.Infrastructure.Implementations;
 
 namespace Example.Specs
 {

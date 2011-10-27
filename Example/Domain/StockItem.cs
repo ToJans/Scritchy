@@ -1,6 +1,6 @@
 ﻿namespace Example.Domain
 {
-    public class StockItem : Scritchy.CQRS.AR
+    public class StockItem : Scritchy.Domain.AR
     {
         int Amount = 0;
         bool IsAllowed = false;

@@ -8,9 +8,9 @@ using Ninject.Web.Mvc;
 using Ninject;
 using Example.Infrastructure;
 using Example.Domain.Readmodel;
-using Scritchy.CQRS;
 using Example.Web.Controllers;
-using Scritchy.CQRS.Infrastructure;
+using Scritchy.Infrastructure;
+using Scritchy.Infrastructure.Implementations;
 
 namespace Example.Web
 {

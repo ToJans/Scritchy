@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Scritchy.CQRS.Infrastructure;
 using System.Linq.Expressions;
+using Scritchy.Domain;
 
-namespace Scritchy.CQRS.Infrastructure
+namespace Scritchy.Infrastructure.Implementations
 {
     public class InMemoryEventStore : IEventStore
     {

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Scritchy.CQRS
+namespace Scritchy.Domain
 {
     public abstract class AR
     {
         public string Id { get; set; }
         public Events Changes;
-        internal Infrastructure.HandlerRegistry Registry
+        public Action<object> TryApplyEvent
         {
             set {
                 Changes = new Events(this,value);

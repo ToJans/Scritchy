@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Scritchy.CQRS")]
+[assembly: AssemblyTitle("Scritchy.Domain")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Scritchy.CQRS")]
+[assembly: AssemblyProduct("Scritchy.Domain")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d60061d6-be7e-489c-8989-bd5962ea4381")]
+[assembly: Guid("22e7e71a-a293-4593-be94-f5ae81cef155")]
 
 // Version information for an assembly consists of the following four values:
 //

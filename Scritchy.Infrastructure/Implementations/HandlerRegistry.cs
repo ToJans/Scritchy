@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Scritchy.Infrastructure.Helpers;
 
-namespace Scritchy.CQRS.Infrastructure
+namespace Scritchy.Infrastructure.Implementations
 {
     public class HandlerRegistry
     {

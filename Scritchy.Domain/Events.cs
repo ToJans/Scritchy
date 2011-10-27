@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Dynamic;
-using Scritchy.CQRS.Infrastructure;
 
-namespace Scritchy.CQRS
+namespace Scritchy.Domain
 {
     public class Events
     {
         object state;
         List<object> PublishedEvents = new List<object>();
-        HandlerRegistry handlerregistry;
-        public Events(object state,HandlerRegistry handlerregistry)
+        Action<object> TryApplyEvent;
+        public Events(object state, Action<object> TryApplyEvent)        
         {
             this.state = state;
-            this.handlerregistry = handlerregistry;
+            this.TryApplyEvent = TryApplyEvent;
         }
 
         public IEnumerable<object> GetPublishedEvents()
@@ -26,8 +25,7 @@ namespace Scritchy.CQRS
         public static Events operator +(Events e, object newevent)
         {
             e.PublishedEvents.Add(newevent);
-            if (e.handlerregistry.ContainsHandler(e.state.GetType(), newevent.GetType()))
-                e.handlerregistry[e.state.GetType(), newevent.GetType()].Invoke(e.state, newevent);
+            e.TryApplyEvent(newevent);
             return (e);
         }
 

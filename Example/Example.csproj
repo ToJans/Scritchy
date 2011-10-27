@@ -48,9 +48,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Scritchy.CQRS\Scritchy.CQRS.csproj">
-      <Project>{3169C679-54AC-449F-A6FB-1431345CCADE}</Project>
-      <Name>Scritchy.CQRS</Name>
+    <ProjectReference Include="..\Scritchy.Domain\Scritchy.Domain.csproj">
+      <Project>{23B6186A-962F-43C5-9ED4-3E7D75B9DE2D}</Project>
+      <Name>Scritchy.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scritchy.Infrastructure\Scritchy.Infrastructure.csproj">
+      <Project>{085412FE-55C2-4AC5-8B37-1638BF953CCF}</Project>
+      <Name>Scritchy.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

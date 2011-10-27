@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Example.Domain;
 using Example.Domain.Commands;
 using Example.Domain.Events;
 using Example.Domain.Readmodel;
-using Scritchy.CQRS.Infrastructure;
-using Scritchy.CQRS;
+using Scritchy.Domain;
+using Scritchy.Infrastructure.Helpers;
+using Scritchy.Infrastructure.Implementations;
 
 namespace Example.Infrastructure
 {

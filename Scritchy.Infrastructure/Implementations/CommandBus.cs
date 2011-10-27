@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using Scritchy.Infrastructure.Exceptions;
 
-namespace Scritchy.CQRS.Infrastructure
+namespace Scritchy.Infrastructure.Implementations
 {
 
     public class CommandBus:ICommandBus

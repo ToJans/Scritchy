@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Scritchy.Domain;
 
-namespace Scritchy.CQRS.Infrastructure
+namespace Scritchy.Infrastructure.Implementations
 {
     public class HandlerInstanceResolver : IHandlerInstanceResolver
     {
@@ -32,7 +33,10 @@ namespace Scritchy.CQRS.Infrastructure
         {
             var ar = Activator.CreateInstance(t) as AR;
             ar.Id = Id;
-            ar.Registry = handlerregistry;
+            ar.TryApplyEvent = x => {
+                if (handlerregistry.ContainsHandler(t, x.GetType()))
+                    handlerregistry[t, x.GetType()](ar, x);
+            };
             var events = eventsource.EventsForInstance(ar);
             ApplyEventsToInstance(ar, events);
             return ar;

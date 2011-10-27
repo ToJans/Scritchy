@@ -116,13 +116,16 @@
         <i>Domain logic</i> in the <a href="https://github.com/ToJans/Scritchy/blob/master/Example/Domain/StockItem.cs" target="_blank">Example.Domain.StockItem class</a>.
     </li>
     <li>
-        <i>Commands</i> in the <a href="https://github.com/ToJans/Scritchy/tree/master/Example/Domain/Commands" target"_blank">Example.Domain.Commands folder</a>.
+        <i>Commands</i> in the <a href="https://github.com/ToJans/Scritchy/tree/master/Example/Domain/Commands" target="_blank">Example.Domain.Commands folder</a>.
     </li>
     <li>
-        <i>Events</i> in the <a href="https://github.com/ToJans/Scritchy/tree/master/Example/Domain/Events" target"_blank">Example.Domain.Events folder</a>.
+        <i>Events</i> in the <a href="https://github.com/ToJans/Scritchy/tree/master/Example/Domain/Events" target="_blank">Example.Domain.Events folder</a>.
     </li>
     <li>
         <i>View builder</i> in the <a href="https://github.com/ToJans/Scritchy/blob/master/Example/Domain/Readmodel/StockDictionary.cs" target="_blank">Example.Domain.Readmodel.StockDictionaryHandler class</a>.
+    </li>
+    <li>
+        <i>Infrastructure setup</i> in the <a href="https://github.com/ToJans/Scritchy/blob/master/Example/Infrastructure/ExampleRegistry.cs" target="_blank">Example.Infrastructure.ExampleRegistry class</a>.
     </li>
     </ul>
     

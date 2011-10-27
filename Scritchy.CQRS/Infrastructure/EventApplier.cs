@@ -21,7 +21,7 @@ namespace Scritchy.CQRS.Infrastructure
         public void ApplyEventsToInstance(object instance, IEnumerable<object> events)
         {
             var instancetype = instance.GetType();
-            foreach (var evt in eventstore.EventsForInstance(instance))
+            foreach (var evt in events)
             {
                 this.handlerregistry[instancetype, evt.GetType()](instance, evt);
             }

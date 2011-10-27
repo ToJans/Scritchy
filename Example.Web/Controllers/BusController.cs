@@ -20,20 +20,21 @@ namespace Example.Web.Controllers
         { 
         }
 
-        ExampleBus bus;
+        ICommandBus bus;
+        IEventApplier applier;
         StockDictionary readmodel;
         FailedCommandExceptionList FailedCommands;
 
-        public BusController(ExampleBus bus, StockDictionary readmodel, FailedCommandExceptionList FailedCommands)
+        public BusController(ICommandBus bus, IEventApplier applier,StockDictionary readmodel, FailedCommandExceptionList FailedCommands)
         {
             this.bus = bus;
             this.readmodel = readmodel;
             this.FailedCommands = FailedCommands;
+            this.applier = applier;
         }
 
         public ActionResult Index()
         {
-            base.ViewData.Add("PublishedEvents", bus.PublishedEvents);
             base.ViewData.Add("FailedCommands", FailedCommands);
             return View(readmodel);
         }
@@ -44,6 +45,7 @@ namespace Example.Web.Controllers
             try
             {
                 bus.RunCommand(command);
+                applier.ApplyNewEventsToAllHandlers();
             }
             catch (FailedCommandException e)
             {

@@ -20,16 +20,6 @@
     </ul>
     </div>
     <div style="float:left;border:1px solid black">
-    <h3>Published events</h3>
-        <ul>
-            <% foreach (var e in ViewData["PublishedEvents"] as IEnumerable<object>) { %>
-                <li><%=e.GetType().Name %>
-                  <%= Html.Dump(e) %>
-                </li>
-            <% } %>
-        </ul>
-    </div>
-    <div style="float:left;border:1px solid black">
     <h3>Failed commands</h3>
     <ul>
         <% foreach (var e in ViewData["FailedCommands"] as IEnumerable<dynamic>)

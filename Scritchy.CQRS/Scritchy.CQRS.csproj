@@ -40,12 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FailedCommandException.cs" />
-    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="Infrastructure\CommandBus.cs" />
+    <Compile Include="Infrastructure\HandlerInstanceResolver.cs" />
+    <Compile Include="Infrastructure\EventApplier.cs" />
+    <Compile Include="Infrastructure\HandlerRegistry.cs" />
+    <Compile Include="Infrastructure\InMemoryEventStore.cs" />
+    <Compile Include="Exceptions\FailedCommandException.cs" />
+    <Compile Include="InfrastuctureInterfaces.cs" />
+    <Compile Include="Infrastructure\ReflectionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AR.cs" />
-    <Compile Include="Bus.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="Exceptions\SaveEventsException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

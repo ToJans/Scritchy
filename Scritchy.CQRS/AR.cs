@@ -8,11 +8,17 @@ namespace Scritchy.CQRS
     public abstract class AR
     {
         public string Id { get; set; }
-        public Events Changes; 
+        public Events Changes;
+        internal Infrastructure.HandlerRegistry Registry
+        {
+            set {
+                Changes = new Events(this,value);
+            }
+        }
 
         public AR()
         {
-            Changes = new Events(this);
+            
         }
 
         // inspired by @yreynhout:

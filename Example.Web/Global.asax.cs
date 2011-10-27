@@ -10,6 +10,7 @@ using Example.Infrastructure;
 using Example.Domain.Readmodel;
 using Scritchy.CQRS;
 using Example.Web.Controllers;
+using Scritchy.CQRS.Infrastructure;
 
 namespace Example.Web
 {
@@ -40,7 +41,14 @@ namespace Example.Web
         protected override IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<ExampleBus>().ToMethod(k=>new ExampleBus(t=>k.Kernel.Get(t))).InSingletonScope();
+            kernel.Bind<ICommandBus>().To<CommandBus>().InSingletonScope(); ;
+            kernel.Bind<IEventApplier>().To<EventApplier>().InSingletonScope();
+            kernel.Bind<IEventStore>().To<InMemoryEventStore>().InSingletonScope();
+            kernel.Bind<IHandlerInstanceResolver>().ToMethod(c => new HandlerInstanceResolver(
+                c.Kernel.Get<IEventStore>(),
+                c.Kernel.Get<HandlerRegistry>(),
+                t=>c.Kernel.Get(t))).InSingletonScope();
+            kernel.Bind<HandlerRegistry>().To<ExampleRegistry>().InSingletonScope();
             kernel.Bind<StockDictionaryHandler>().ToSelf().InSingletonScope();
             kernel.Bind<StockDictionary>().ToConstant(new StockDictionary());
             kernel.Bind<BusController.FailedCommandExceptionList>().ToSelf().InSingletonScope();

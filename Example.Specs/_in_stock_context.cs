@@ -4,15 +4,20 @@ using System.Linq;
 using Example.Domain.Readmodel;
 using Example.Infrastructure;
 using Machine.Specifications;
+using Scritchy.CQRS;
+using Scritchy.CQRS.Infrastructure;
 
 namespace Example.Specs
 {
     public abstract class _in_stockcontext
     {
-        static ExampleBus SUT;
-        static int neweventindex = 0;
+        static ICommandBus SUT;
+        static IEventStore eventstore;
+        static IEventApplier eventapplier;
+
         protected static StockDictionary Readmodel;
         protected static Exception Exception;
+        static List<object> PublishedEvents=new List<object>();
 
         protected const string ItemId = "Item/1";
 
@@ -27,25 +32,30 @@ namespace Example.Specs
                 else
                     throw new InvalidOperationException();
             };
-            SUT = new ExampleBus(handlerLoader);
+            var registry = new ExampleRegistry();
+            eventstore = new InMemoryEventStore(registry);
+            var resolver = new HandlerInstanceResolver(eventstore,registry,handlerLoader);
+            eventapplier = new EventApplier(eventstore, registry, resolver);
+            SUT = new CommandBus(eventstore, registry, resolver);
         };
 
         protected static void ApplyCommand(object command)
         {
-            neweventindex = SUT.PublishedEvents.Count();
             SUT.RunCommand(command);
+            PublishedEvents.Clear();
+            PublishedEvents.AddRange(eventstore.GetNewEventsSincePreviousRead());
         }
 
         protected static IEnumerable<T> ResultingEvents<T>(Predicate<T> pred=null)
         {
             if (pred == null) pred = x=>true;
-            return SUT.PublishedEvents.Skip(neweventindex).OfType<T>().Where(x=>pred(x));
+            return PublishedEvents.OfType<T>().Where(x=>pred(x));
         }
 
         protected static void ApplyEvents(params object[] events)
         {
-            SUT.PublishedEvents.AddRange(events);
-            SUT.ApplyEventsToHandlers(events);
+            eventstore.SaveEvents(events);
+            eventapplier.ApplyNewEventsToAllHandlers();
         }
 
         protected static void Try(Action a)

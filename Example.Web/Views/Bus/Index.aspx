@@ -11,22 +11,47 @@
         {
             display:block;
             padding-left:90px;
-            background-image: url("/content/scritchy-small.png");
+            background-image: url("/content/scritchy-title.png");
             background-repeat:no-repeat;
             background-position:10px 10px;
+            background-color:White;
             font-size:80px;
-            border-top: 2px black dotted;
-            border-bottom: 2px black dotted;
+            text-indent: 3000px;
+            border: 2px black solid;
             height:120px;
-            padding-top:10px;
+            padding-top:0px;
+        }
+        
+        .rounded
+        {
+             border-radius:5px;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
         }
         
         body
         {
             margin: 0;
             padding: 10px;
-            font-family:Arial;
+            padding-top:0px;
+            font-family: Segoe UI;
         }
+        
+        h1,h2,h3,h4,h5,h6
+        {
+            font-family:Segoe Script;
+        }
+        
+        h2,h3,h4,h5,h6
+        {
+            color:White;
+            background-color: #333D88;
+             border-radius:5px;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+            
+        }
+        
         .middle 
         {
             color:Black;

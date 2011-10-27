@@ -55,17 +55,17 @@
         .middle 
         {
             color:Black;
-            background:yellow;
+            background:#8088C3;
             margin:0;
-            border-left:grey 260px solid;
-            border-right:grey 260px solid;
+            border-left:#333D88 260px solid;
+            border-right:#333D88 260px solid;
             padding:10px;
             min-height:1000px;
         }
         
         .box
         {
-            background:white;
+            background:#6873c3;
             border:black 1px solid;
             position:fixed;
             top:30px;
@@ -89,11 +89,18 @@
             width:80px;
         }
         
-        form 
+        form, .left ul 
         {
-            border:1px dashed grey;
+            background:white;
             padding:5px;
         }
+        
+        .left ul 
+        {
+            padding-left:1.5em;
+        }
+        
+        
         
         input 
         {
@@ -179,7 +186,7 @@
     </div>
     </div>
     <div class="box left">
-    <h3>Most recent commands</h3>
+    <h3>Recent commands</h3>
     <ul>
         <% foreach (var e in (ViewData["RecentCommands"] as dynamic).Items as IEnumerable<dynamic>)
            { 

@@ -69,7 +69,5 @@ namespace Example.Web.Controllers
             UpdateModel<T>(o);
             return o;
         }
-
-
     }
 }

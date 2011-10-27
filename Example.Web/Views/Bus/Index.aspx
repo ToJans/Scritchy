@@ -20,6 +20,9 @@
             border: 2px black solid;
             height:120px;
             padding-top:0px;
+             border-radius:5px;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
         }
         
         .rounded
@@ -71,6 +74,9 @@
             top:30px;
             width:220px;
             padding:10px;
+             border-radius:5px;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
         }
         
         .left
@@ -93,6 +99,10 @@
         {
             background:white;
             padding:5px;
+            margin-top:0px;
+             border-radius:5px;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
         }
         
         .left ul 
@@ -124,6 +134,9 @@
             display:inline-block;
             border:1px black solid;
             padding:10px;
+             border-radius:5px;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
         }
         
         .stocklist > h3

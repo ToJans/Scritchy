@@ -8,8 +8,7 @@ namespace Scritchy.Infrastructure
 {
     public interface IEventStore
     {
-        IEnumerable<object> GetNewEventsSincePreviousRead();
-        IEnumerable<object> EventsForInstance(object Instance);
+        IEnumerable<object> GetNewEvents(object Instance=null,object EnumeratorContext=null);
         bool SaveEvents(IEnumerable<object> events);
 
     }

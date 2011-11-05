@@ -30,7 +30,7 @@ namespace Scritchy.Infrastructure.Implementations
 
         public void ApplyNewEventsToAllHandlers()
         {
-            foreach (var e in eventstore.GetNewEventsSincePreviousRead())
+            foreach (var e in eventstore.GetNewEvents())
             {
                 foreach(var key in handlerregistry.RegisteredHandlers.Where(x=>x.MessageType == e.GetType()))
                 {

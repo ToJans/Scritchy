@@ -43,7 +43,7 @@ namespace Example.Specs
         {
             SUT.RunCommand(command);
             PublishedEvents.Clear();
-            PublishedEvents.AddRange(eventstore.GetNewEventsSincePreviousRead());
+            PublishedEvents.AddRange(eventstore.GetNewEvents());
         }
 
         protected static IEnumerable<T> ResultingEvents<T>(Predicate<T> pred=null)

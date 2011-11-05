@@ -18,19 +18,6 @@ namespace Scritchy.Infrastructure.Implementations
 
         List<object> PublishedEvents = new List<object>();
 
-        public IEnumerable<object> EventsForInstance(object Instance)
-        {
-            var types = handlerregistry.RegisteredHandlers.Where(x => x.InstanceType == Instance.GetType()).Select(x => x.MessageType).ToList();
-            Predicate<object> eventallowed = obj => true;
-            var ar = Instance as AR;
-            if (ar != null)
-            {
-                eventallowed = obj => obj.GetType().GetProperty(ar.GetType().Name + "Id").GetValue(obj,null) as string == ar.Id;
-            }
-            return from x in PublishedEvents
-                   where types.Contains(x.GetType()) && eventallowed(x)
-                   select x;
-        }
 
         public bool SaveEvents(IEnumerable<object> events)
         {
@@ -38,13 +25,35 @@ namespace Scritchy.Infrastructure.Implementations
             return true;
         }
 
-        int pointer = 0;
+        Dictionary<object,int> ContextPointers = new Dictionary<object,int>();
 
-        public IEnumerable<object> GetNewEventsSincePreviousRead()
+         object GlobalContext = new object();
+
+        public IEnumerable<object> GetNewEvents(object Instance=null,object EnumeratorContext=null)
         {
-            while (pointer < PublishedEvents.Count)
+            EnumeratorContext = EnumeratorContext ?? Instance ?? GlobalContext;
+            if (!ContextPointers.ContainsKey(EnumeratorContext))
             {
-                yield return PublishedEvents[pointer++];
+                ContextPointers.Add(EnumeratorContext, 0);
+            }
+            while (ContextPointers[EnumeratorContext] < PublishedEvents.Count)
+            {
+                object res = PublishedEvents[ContextPointers[EnumeratorContext]++];
+                if (Instance == null)
+                {
+                    yield return res;
+                } else if (handlerregistry.ContainsHandler(Instance.GetType(), res.GetType()))
+                {
+                    var ar = Instance as AR;
+                    if (ar == null)
+                        yield return res;
+                    else
+                    {
+                        var msgid = res.GetType().GetProperty(Instance.GetType().Name + "Id").GetValue(res,null) as string;
+                        if (ar.Id == msgid)
+                            yield return res;
+                    }
+                }
             }
         }
     }

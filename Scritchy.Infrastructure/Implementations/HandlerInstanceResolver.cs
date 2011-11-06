@@ -19,7 +19,7 @@ namespace Scritchy.Infrastructure.Implementations
             this.LoadHandler = LoadHandler;
         }
 
-        public void ApplyEventsToInstance(object instance, IEnumerable<object> events)
+        public void ApplyEventsToInstance(object instance)
         {
             var instancetype = instance.GetType();
             foreach (var evt in eventsource.GetNewEvents(instance))
@@ -37,8 +37,7 @@ namespace Scritchy.Infrastructure.Implementations
                 if (handlerregistry.ContainsHandler(t, x.GetType()))
                     handlerregistry[t, x.GetType()](ar, x);
             };
-            var events = eventsource.GetNewEvents(ar);
-            ApplyEventsToInstance(ar, events);
+            ApplyEventsToInstance(ar);
             return ar;
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Scritchy.Domain;
+using System.Reflection;
 
 namespace Scritchy.Infrastructure.Implementations
 {
@@ -19,26 +20,34 @@ namespace Scritchy.Infrastructure.Implementations
             this.resolver = resolver;
         }
 
-        public void ApplyEventsToInstance(object instance, IEnumerable<object> events)
+        public void ApplyEventsToInstance(object instance)
         {
             var instancetype = instance.GetType();
-            foreach (var evt in events)
+            var enumeratorcontext = instance is AR ? instance : instancetype;
+            foreach (var evt in eventstore.GetNewEvents(instance,enumeratorcontext))
             {
-                this.handlerregistry[instancetype, evt.GetType()](instance, evt);
+                if (!this.handlerregistry.ContainsHandler(instancetype,evt.GetType()))
+                    continue;
+                var handler = this.handlerregistry[instancetype, evt.GetType()];
+                try
+                {
+                    handler(instance, evt);
+                }
+                catch (TargetInvocationException e)
+                {
+                    throw e.InnerException;
+                }
             }
         }
 
         public void ApplyNewEventsToAllHandlers()
         {
-            foreach (var e in eventstore.GetNewEvents())
+            foreach(var handlertype in handlerregistry.RegisteredHandlers
+                .Where(x=>!typeof(AR).IsAssignableFrom(x.InstanceType))
+                .Select(x=>x.InstanceType).Distinct())
             {
-                foreach(var key in handlerregistry.RegisteredHandlers.Where(x=>x.MessageType == e.GetType()))
-                {
-                    if(typeof(AR).IsAssignableFrom(key.InstanceType))
-                        continue;
-                    object handler=resolver.ResolveHandlerFromType(key.InstanceType);
-                    handlerregistry[key](handler, e);
-                }
+                object handler=resolver.ResolveHandlerFromType(handlertype);
+                ApplyEventsToInstance(handler);
             }
         }
     }

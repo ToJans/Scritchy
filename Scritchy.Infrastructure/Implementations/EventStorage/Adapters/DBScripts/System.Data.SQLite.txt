@@ -1,0 +1,2 @@
+﻿CREATE TABLE "EventBlobs" ("Id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , "SerializedData" TEXT NOT NULL , "SerializationProtocol" TEXT NOT NULL , "TypeName" TEXT NOT NULL , "TypeFullName" TEXT NOT NULL );
+CREATE TABLE "EventHeaders" ("EventId" INTEGER NOT NULL , "Name" TEXT NOT NULL , "Value" TEXT);

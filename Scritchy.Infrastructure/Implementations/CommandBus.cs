@@ -27,9 +27,10 @@ namespace Scritchy.Infrastructure.Implementations
             var id = Command.GetType().GetProperty(key.InstanceType.Name + "Id").GetValue(Command, null) as string;
             var ar = resolver.LoadARSnapshot(key.InstanceType, id);
 
+            var handler = handlerregistry[key];
             try
             {
-                handlerregistry[key](ar, Command);
+                handler(ar, Command);
             }
             catch (TargetInvocationException ex)
             {

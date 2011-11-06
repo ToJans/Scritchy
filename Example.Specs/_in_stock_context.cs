@@ -11,9 +11,7 @@ namespace Example.Specs
 {
     public abstract class _in_stockcontext
     {
-        static ICommandBus SUT;
-        static IEventStore eventstore;
-        static IEventApplier eventapplier;
+        static ScritchyBus SUT;
 
         protected static StockDictionary Readmodel;
         protected static Exception Exception;
@@ -32,18 +30,13 @@ namespace Example.Specs
                 else
                     throw new InvalidOperationException();
             };
-            var registry = new ConventionBasedRegistry();
-            eventstore = new InMemoryEventStore(registry);
-            var resolver = new HandlerInstanceResolver(eventstore,registry,handlerLoader);
-            eventapplier = new EventApplier(eventstore, registry, resolver);
-            SUT = new CommandBus(eventstore, registry, resolver);
+            SUT = new ScritchyBus(handlerLoader);
         };
 
         protected static void ApplyCommand(object command)
         {
             SUT.RunCommand(command);
-            PublishedEvents.Clear();
-            PublishedEvents.AddRange(eventstore.GetNewEvents());
+            PublishedEvents.AddRange(SUT.EventStore.GetNewEvents());
         }
 
         protected static IEnumerable<T> ResultingEvents<T>(Predicate<T> pred=null)
@@ -54,8 +47,11 @@ namespace Example.Specs
 
         protected static void ApplyEvents(params object[] events)
         {
-            eventstore.SaveEvents(events);
-            eventapplier.ApplyNewEventsToAllHandlers();
+            SUT.EventStore.SaveEvents(events);
+            SUT.ApplyNewEventsToAllHandlers();
+            // make sure GetNewEvents only returns events launched after all these events
+            PublishedEvents.AddRange(SUT.EventStore.GetNewEvents());
+            PublishedEvents.Clear();
         }
 
         protected static void Try(Action a)

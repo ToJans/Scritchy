@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
-using Ninject.Web.Mvc;
-using Ninject;
-using Example.Infrastructure;
 using Example.Domain.Readmodel;
 using Example.Web.Controllers;
+using Ninject;
+using Ninject.Web.Mvc;
 using Scritchy.Infrastructure;
+using Scritchy.Infrastructure.Configuration;
 using Scritchy.Infrastructure.Implementations;
-using Scritchy.Infrastructure.Exceptions;
 
 namespace Example.Web
 {
@@ -42,15 +37,8 @@ namespace Example.Web
         protected override IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<ICommandBus>().To<CommandBus>().InSingletonScope(); ;
+            kernel.Bind<ICommandBus>().ToConstant(new ScritchyBus(x => kernel.Get(x)));
             kernel.Bind<BusController.CommandHistory>().ToSelf().InSingletonScope();
-            kernel.Bind<IEventApplier>().To<EventApplier>().InSingletonScope();
-            kernel.Bind<IEventStore>().To<InMemoryEventStore>().InSingletonScope();
-            kernel.Bind<IHandlerInstanceResolver>().ToMethod(c => new HandlerInstanceResolver(
-                c.Kernel.Get<IEventStore>(),
-                c.Kernel.Get<HandlerRegistry>(),
-                t=>c.Kernel.Get(t))).InSingletonScope();
-            kernel.Bind<HandlerRegistry>().To<ExampleRegistry>().InSingletonScope();
             kernel.Bind<StockDictionaryHandler>().ToSelf().InSingletonScope();
             kernel.Bind<StockDictionary>().ToConstant(new StockDictionary());
             return kernel;

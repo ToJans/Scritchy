@@ -46,8 +46,10 @@
     <Compile Include="Domain\Readmodel\StockDictionary.cs" />
     <Compile Include="Domain\StockItem.cs" />
     <Compile Include="Domain\Events\StockItem.cs" />
-    <Compile Include="Infrastructure\ExampleRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Scritchy.Domain\Scritchy.Domain.csproj">

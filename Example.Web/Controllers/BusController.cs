@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Example.Infrastructure;
 using System.Reflection;
-using System.Text;
-using System.Xml.Serialization;
-using System.IO;
+using System.Web.Mvc;
 using Example.Domain.Readmodel;
 using Scritchy.Infrastructure;
 using Scritchy.Infrastructure.Exceptions;
+using Scritchy.Infrastructure.Configuration;
 
 namespace Example.Web.Controllers
 {
@@ -38,16 +34,14 @@ namespace Example.Web.Controllers
         }
 
         ICommandBus bus;
-        IEventApplier applier;
         StockDictionary readmodel;
         CommandHistory cmdhist;
 
-        public BusController(ICommandBus bus, IEventApplier applier, StockDictionary readmodel, CommandHistory cmdhist)
+        public BusController(ICommandBus bus , StockDictionary readmodel, CommandHistory cmdhist)
         {
             this.bus = bus;
             this.readmodel = readmodel;
             this.cmdhist = cmdhist;
-            this.applier = applier;
         }
 
         public ActionResult Index()
@@ -62,7 +56,6 @@ namespace Example.Web.Controllers
             try
             {
                 bus.RunCommand(command);
-                applier.ApplyNewEventsToAllHandlers();
                 cmdhist.Add(new FailedCommandException(new Exception("OK"), command));
             }
             catch (FailedCommandException e)

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Example.Domain.Readmodel;
-using Example.Infrastructure;
 using Machine.Specifications;
 using Scritchy.Infrastructure;
 using Scritchy.Infrastructure.Implementations;
+using Scritchy.Infrastructure.Configuration;
 
 namespace Example.Specs
 {
@@ -32,7 +32,7 @@ namespace Example.Specs
                 else
                     throw new InvalidOperationException();
             };
-            var registry = new ExampleRegistry();
+            var registry = new ConventionBasedRegistry();
             eventstore = new InMemoryEventStore(registry);
             var resolver = new HandlerInstanceResolver(eventstore,registry,handlerLoader);
             eventapplier = new EventApplier(eventstore, registry, resolver);

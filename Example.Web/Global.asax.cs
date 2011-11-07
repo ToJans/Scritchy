@@ -37,7 +37,7 @@ namespace Example.Web
         protected override IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<ICommandBus>().ToConstant(new ScritchyBus(x => kernel.Get(x)));
+            kernel.Bind<ICommandBus>().ToConstant(new ScritchyBus(x => kernel.Get(x))).InSingletonScope();
             kernel.Bind<BusController.CommandHistory>().ToSelf().InSingletonScope();
             kernel.Bind<StockDictionaryHandler>().ToSelf().InSingletonScope();
             kernel.Bind<StockDictionary>().ToConstant(new StockDictionary());

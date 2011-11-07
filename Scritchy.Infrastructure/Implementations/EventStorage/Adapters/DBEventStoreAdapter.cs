@@ -16,7 +16,7 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
             try
             {
                 var k = ConfigurationManager.ConnectionStrings["eventstore"];
-                return true;
+                return k!=null;
             }
             catch (KeyNotFoundException)
             {

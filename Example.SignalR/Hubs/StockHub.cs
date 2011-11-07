@@ -14,11 +14,11 @@ namespace Example.SignalR.Hubs
     {
         ScritchyBus bus;
         StockDictionary dict;
-        static Dictionary<string, string> CommandsInJson = new Dictionary<string, string>();
+        static Dictionary<string, object> CommandExamples = new Dictionary<string, object>();
 
         public StockHub(ScritchyBus bus,StockDictionary dict)
         {
-            InitializeCommandsInJson();
+            InitializeCommands();
             this.bus = bus;
             this.dict = dict;
             bus.ApplyNewEventsToAllHandlers();
@@ -26,31 +26,18 @@ namespace Example.SignalR.Hubs
 
         public void Initialize()
         {
-            Caller.updateCommandList(CommandsInJson.Keys); 
+            Caller.updateCommandList(CommandExamples.Keys); 
             Clients.updateStockList(dict);
         }
 
         public void LoadCommandTemplate(string fulltypename)
         {
-            Caller.updateCommandEntry(CommandsInJson[fulltypename??CommandsInJson.Keys.First()]);
+            Caller.updateCommandEntry(CommandExamples[fulltypename??CommandExamples.Keys.First()]);
         }
-
-        /*
-        class TypedConverter<T>
-        {
-            public object ConvertFromJson(string json)
-            {
-                return JsonConvert.DeserializeObject<T>(json);
-            }
-        }*/
 
         public void RunCommand(string fulltypename,string serializeddata)
         {
             var t = Type.GetType(fulltypename);
-            /*
-            dynamic cvtinst = Activator.CreateInstance(typeof(TypedConverter<>).MakeGenericType(t));
-            object obj = cvtinst.ConvertFromJson(serializeddata);
-             */
             var obj = JsonConvert.DeserializeObject(serializeddata, t);
             try
             {
@@ -63,11 +50,11 @@ namespace Example.SignalR.Hubs
             }
         }
 
-        void InitializeCommandsInJson()
+        void InitializeCommands()
         {
-            lock (CommandsInJson)
+            lock (CommandExamples)
             {
-                if (CommandsInJson.Count > 0) return;
+                if (CommandExamples.Count > 0) return;
                 foreach (var cmd in new object[]{
                     new AllowItem {StockItemId = "Item/1",Name = "Item 1"},
                     new BanItem {StockItemId = "Item/1"},
@@ -75,7 +62,7 @@ namespace Example.SignalR.Hubs
                     new RemoveItems {StockItemId = "Item/1",Amount = 3}
                 })
                 {
-                    CommandsInJson.Add(cmd.GetType().AssemblyQualifiedName, JsonConvert.SerializeObject(cmd));
+                    CommandExamples.Add(cmd.GetType().AssemblyQualifiedName, cmd);
                 }
             }
         }

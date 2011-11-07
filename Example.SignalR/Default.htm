@@ -53,8 +53,7 @@
                 window.alert(msg);
             };
 
-            stockhub.updateCommandEntry = function (json) {
-                var res = JSON.parse(json);
+            stockhub.updateCommandEntry = function (res) {
                 $(cmdform).html("");
                 for (var i in res) {
                     $(cmdform)

@@ -177,7 +177,7 @@
     <p>
         Eventstorage is also auto-wired; Scrichy looks for a connectionstring named "eventstore" 
         in the app configuration, and if it can not find it, it uses the InMemoryEventStore.<br />
-        Currently only tested with SQLite, but other implementations should be trivial.
+        Currently works with SQLite and MsSql(CE), but other implementations should be trivial.
 
     </p>    
     <p>

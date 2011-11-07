@@ -21,7 +21,8 @@ namespace Scritchy.Infrastructure.Implementations
             var instancetype = instance.GetType();
             foreach (var evt in eventsource.GetNewEvents(instance))
             {
-                this.handlerregistry[instancetype, evt.GetType()](instance, evt);
+                if(this.handlerregistry.ContainsHandler(instancetype,evt.GetType()))
+                    this.handlerregistry[instancetype, evt.GetType()](instance, evt);
             }
         }
 

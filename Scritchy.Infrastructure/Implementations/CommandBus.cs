@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using Scritchy.Infrastructure.Exceptions;
+using System;
 
 namespace Scritchy.Infrastructure.Implementations
 {
@@ -20,7 +21,9 @@ namespace Scritchy.Infrastructure.Implementations
 
         public void RunCommand(object Command)
         {
-            var key = handlerregistry.RegisteredHandlers.Where(x => x.MessageType == Command.GetType()).First();
+            var key = handlerregistry.RegisteredHandlers.Where(x => x.MessageType == Command.GetType()).FirstOrDefault();
+            if (key == null)
+                throw new InvalidOperationException("No handler found for the commands of type " + Command.GetType().Name);
             var id = Command.GetType().GetProperty(key.InstanceType.Name + "Id").GetValue(Command, null) as string;
             var ar = resolver.LoadARSnapshot(key.InstanceType, id);
 

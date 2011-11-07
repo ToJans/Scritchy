@@ -6,6 +6,7 @@ using Example.Domain.Readmodel;
 using Newtonsoft.Json;
 using Scritchy.Infrastructure.Configuration;
 using SignalR.Hubs;
+using Scritchy.Infrastructure;
 
 namespace Example.SignalR.Hubs
 {

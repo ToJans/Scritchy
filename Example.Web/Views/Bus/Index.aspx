@@ -170,7 +170,7 @@
         <i>View builder</i> in the <a href="https://github.com/ToJans/Scritchy/blob/master/Example/Domain/Readmodel/StockDictionary.cs" target="_blank">Example.Domain.Readmodel.StockDictionaryHandler class</a>.
     </li>
     <li>
-        <i>Infrastructure setup</i> in the <a href="https://github.com/ToJans/Scritchy/blob/master/Example/Infrastructure/ExampleRegistry.cs" target="_blank">Example.Infrastructure.ExampleRegistry class</a>.
+        <i>No infrastructure setup is required; Scritchy finds out by itself what the commands/events/ar's and eventhandlers are.
     </li>
     </ul>
     

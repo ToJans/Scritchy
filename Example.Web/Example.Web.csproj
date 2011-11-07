@@ -45,11 +45,13 @@
     <Reference Include="Ninject.Web.Mvc">
       <HintPath>..\packages\Ninject.Web.Mvc2.2.2.2.0\lib\net40-Full\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Scritchy.Domain, Version=0.1.0.19488, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Scritchy.0.1.0.8\lib\net35\Scritchy.Domain.dll</HintPath>
+    <Reference Include="Scritchy.Domain, Version=0.1.0.32620, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Scritchy.0.1.0.9\lib\net35\Scritchy.Domain.dll</HintPath>
     </Reference>
-    <Reference Include="Scritchy.Infrastructure, Version=0.1.0.19777, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Scritchy.0.1.0.8\lib\net35\Scritchy.Infrastructure.dll</HintPath>
+    <Reference Include="Scritchy.Infrastructure, Version=0.1.0.38186, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Scritchy.0.1.0.9\lib\net35\Scritchy.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

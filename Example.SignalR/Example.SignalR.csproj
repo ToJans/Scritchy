@@ -43,13 +43,13 @@
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
     </Reference>
-    <Reference Include="Scritchy.Domain, Version=0.1.0.19488, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Scritchy.Domain, Version=0.1.0.32620, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Scritchy.0.1.0.8\lib\net35\Scritchy.Domain.dll</HintPath>
+      <HintPath>..\packages\Scritchy.0.1.0.9\lib\net35\Scritchy.Domain.dll</HintPath>
     </Reference>
-    <Reference Include="Scritchy.Infrastructure, Version=0.1.0.19777, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Scritchy.Infrastructure, Version=0.1.0.38186, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Scritchy.0.1.0.8\lib\net35\Scritchy.Infrastructure.dll</HintPath>
+      <HintPath>..\packages\Scritchy.0.1.0.9\lib\net35\Scritchy.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="SignalR">
       <HintPath>..\packages\SignalR.Server.0.3.5\lib\net40\SignalR.dll</HintPath>
@@ -79,17 +79,18 @@
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="WebActivator">
-      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    <Reference Include="WebActivator, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebActivator.1.5\lib\net40\WebActivator.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Eventstore.mdf" />
     <Content Include="Default.htm" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery-1.7-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.7.js" />
+    <Content Include="Scripts\jquery-1.7.min.js" />
     <Content Include="Scripts\jquery.signalR.js" />
     <Content Include="Scripts\jquery.signalR.min.js" />
     <Content Include="Web.config">

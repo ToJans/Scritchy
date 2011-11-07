@@ -194,6 +194,8 @@
             in the app configuration, and if it can not find it, it uses the InMemoryEventStore.<br />
             Currently works with SQLite and MsSql(CE), but other implementations should be trivial.
         </p>
+        <h3>Here is a video of me implementing a domain from scratch:</h3>
+
         <p>
             Enjoy!
         </p>
@@ -231,6 +233,7 @@
         <a name="quickstart">Quick start</a>
         <h3>
             Develop a working CQRS app on your own in a few minutes</h3>
+        <iframe width="853" height="480" src="http://www.youtube.com/embed/5DKTFZD3hu8?hd=1" frameborder="0" allowfullscreen></iframe>
         <ol>
             <li>Start a new Project.</li>
             <li>Add <em>Scritchy</em> to the references using Nuget.</li>

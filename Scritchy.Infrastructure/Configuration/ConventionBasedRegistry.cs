@@ -33,6 +33,8 @@ namespace Scritchy.Infrastructure.Configuration
             // scan AR's & store possible command & event names
             foreach (var asm in assemblies)
             {
+                if (asm.ManifestModule != null && asm.ManifestModule.FullyQualifiedName == "<In Memory Module>")
+                    continue;
                 srctypes.AddRange(asm.GetTypes()
                     .Where(x => !x.IsAbstract && x.IsClass && !x.IsGenericType && x.IsPublic && !x.Namespace.StartsWith("System") && !x.Namespace.StartsWith("Microsoft")));
             }

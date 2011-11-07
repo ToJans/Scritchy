@@ -169,11 +169,17 @@
     <li>
         <i>View builder</i> in the <a href="https://github.com/ToJans/Scritchy/blob/master/Example/Domain/Readmodel/StockDictionary.cs" target="_blank">Example.Domain.Readmodel.StockDictionaryHandler class</a>.
     </li>
-    <li>
-        <i>No infrastructure setup is required; Scritchy finds out by itself what the commands/events/ar's and eventhandlers are.
-    </li>
     </ul>
-    
+    <p>
+        No infrastructure setup is required; Scritchy finds out by itself 
+        what the commands/events/ar's and eventhandlers are.
+    </p>
+    <p>
+        Eventstorage is also auto-wired; Scrichy looks for a connectionstring named "eventstore" 
+        in the app configuration, and if it can not find it, it uses the InMemoryEventStore.<br />
+        Currently only tested with SQLite, but other implementations should be trivial.
+
+    </p>    
     <p>
         Enjoy!
     </p>

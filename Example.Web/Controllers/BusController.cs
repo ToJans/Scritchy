@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Example.Domain.Readmodel;
 using Scritchy.Infrastructure;
 using Scritchy.Infrastructure.Exceptions;
-using Scritchy.Infrastructure.Configuration;
 
 namespace Example.Web.Controllers
 {

@@ -4,8 +4,6 @@ using System.Linq;
 using Example.Domain.Readmodel;
 using Machine.Specifications;
 using Scritchy.Infrastructure;
-using Scritchy.Infrastructure.Implementations;
-using Scritchy.Infrastructure.Configuration;
 
 namespace Example.Specs
 {

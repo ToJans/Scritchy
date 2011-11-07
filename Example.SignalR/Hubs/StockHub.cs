@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using SignalR.Hubs;
-using Scritchy.Infrastructure.Configuration;
-using Newtonsoft.Json;
-using Example.Domain.Readmodel;
 using Example.Domain.Commands;
+using Example.Domain.Readmodel;
+using Newtonsoft.Json;
+using Scritchy.Infrastructure.Configuration;
+using SignalR.Hubs;
 
 namespace Example.SignalR.Hubs
 {

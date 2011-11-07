@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Scritchy.Infrastructure.Implementations;
-using Scritchy.Domain;
 using System.Reflection;
+using Scritchy.Domain;
+using Scritchy.Infrastructure.Implementations;
 
 namespace Scritchy.Infrastructure.Configuration
 {

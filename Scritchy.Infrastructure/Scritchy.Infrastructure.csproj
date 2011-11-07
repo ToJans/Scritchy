@@ -45,7 +45,7 @@
     <Compile Include="Configuration\ConventionBasedRegistry.cs" />
     <Compile Include="Exceptions\FailedCommandException.cs" />
     <Compile Include="Exceptions\SaveEventsException.cs" />
-    <Compile Include="Configuration\ScritchyBus.cs" />
+    <Compile Include="ScritchyBus.cs" />
     <Compile Include="Implementations\CommandBus.cs" />
     <Compile Include="Implementations\EventApplier.cs" />
     <Compile Include="Implementations\EventStorage\Adapters\InMemoryEventstoreAdapter.cs" />

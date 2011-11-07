@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Scritchy.Infrastructure.Implementations.EventStorage.Models;
 using Scritchy.Infrastructure.Implementations.EventStorage.Adapters;
+using Scritchy.Infrastructure.Implementations.EventStorage.Models;
 
 namespace Scritchy.Infrastructure.Implementations.EventStorage
 {
@@ -29,14 +28,10 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage
         {
             if (adapter == null)
             {
-                try
-                {
+                if (DBEventstoreAdapter.CanCallParameterLessConstructor())
                     adapter = new DBEventstoreAdapter();
-                }
-                catch (Exception)
-                {
+                else
                     adapter = new InMemoryEventstoreAdapter();
-                }
             }
             this.adapter = adapter;
             this.serializer = serializer ?? new Scritchy.Infrastructure.Implementations.EventStorage.Serializers.JsonSerializer();

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Scritchy.Infrastructure.Configuration;
 using Scritchy.Infrastructure.Implementations;
 using Scritchy.Infrastructure.Implementations.EventStorage;
-using Scritchy.Infrastructure.Implementations.EventStorage.Adapters;
 
-namespace Scritchy.Infrastructure.Configuration
+namespace Scritchy.Infrastructure
 {
     public class ScritchyBus : ICommandBus
     {

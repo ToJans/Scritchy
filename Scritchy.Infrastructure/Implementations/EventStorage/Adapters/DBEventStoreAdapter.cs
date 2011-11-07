@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using Scritchy.Infrastructure.Implementations.EventStorage;
-using Scritchy.Infrastructure.Implementations.EventStorage.Models;
-using System.Data;
 using System.Configuration;
-using System;
+using System.Data;
 using System.Data.Common;
+using Scritchy.Infrastructure.Implementations.EventStorage.Models;
 
 namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
 {
@@ -12,6 +10,19 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
     public class DBEventstoreAdapter : IEventstoreAdapter
     {
         IDbConnection conn;
+
+        public static bool CanCallParameterLessConstructor()
+        {
+            try
+            {
+                var k = ConfigurationManager.ConnectionStrings["eventstore"];
+                return true;
+            }
+            catch (KeyNotFoundException)
+            {
+                return false;
+            }
+        }
 
         public DBEventstoreAdapter()
         {

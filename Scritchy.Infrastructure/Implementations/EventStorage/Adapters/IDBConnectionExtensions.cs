@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Scritchy.Infrastructure.Implementations.EventStorage.Models;
+﻿using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using Scritchy.Infrastructure.Implementations.EventStorage.Models;
 
 namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
 {
@@ -31,7 +29,7 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
             return conn.GetReader("insert into [EventBlobs] " +
                 "([SerializedData],[SerializationProtocol],[TypeName],[TypeFullName]) values (@p0,@p1,@p2,@p3);" +
                 " select [Id],[SerializedData],[SerializationProtocol],[TypeName],[TypeFullName]"+
-                " from [EventBlobs] where [Id] = last_insert_rowid();",
+                " from [EventBlobs] where [Id] = SCOPE_IDENTITY();",
                 input.SerializedData, input.SerializationProtocol, input.TypeName, input.TypeFullName).Select(x => x.ToEventBlob()).First();
         }
 
@@ -68,6 +66,7 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = sql;
+                cmd.InterpretDialects();
                 for (int i = 0; i < parametervalues.Length;i++ )
                 {
                     var par = cmd.CreateParameter();
@@ -81,7 +80,14 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
                     yield return rdr;
                 }
             }
+        }
 
+        static void InterpretDialects(this IDbCommand command)
+        {
+            if (command.GetType().Name.ToLower().Contains("sqlite"))
+            {
+                command.CommandText = command.CommandText.Replace("SCOPE_IDENTITY()","last_insert_rowid()");
+            }
         }
 
 

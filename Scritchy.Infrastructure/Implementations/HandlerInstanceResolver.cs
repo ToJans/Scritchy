@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Scritchy.Domain;
 
 namespace Scritchy.Infrastructure.Implementations

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <connectionStrings>
+        <add name="eventstore"
+            connectionString="Data Source=|DataDirectory|\eventstore.mdf" providerName="System.Data.SqlServerCe" />
+    </connectionStrings>
+</configuration>

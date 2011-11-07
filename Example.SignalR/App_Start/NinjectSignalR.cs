@@ -1,9 +1,8 @@
+using Example.Domain.Readmodel;
 using Ninject;
+using Scritchy.Infrastructure.Configuration;
 using SignalR.Infrastructure;
 using SignalR.Ninject;
-using Scritchy.Infrastructure.Configuration;
-using Example.Domain.Readmodel;
-using Example.SignalR.Hubs;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Example.SignalR.App_Start.NinjectSignalR), "Start")]
 

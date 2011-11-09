@@ -9,6 +9,7 @@ namespace Scritchy.Infrastructure.Implementations
         IEventStore eventstore;
         HandlerRegistry handlerregistry;
         IHandlerInstanceResolver resolver;
+        static readonly Helpers.Synchronizer<object> mySync = new Helpers.Synchronizer<object>();
 
         public EventApplier(IEventStore eventstore, HandlerRegistry handlerregistry, IHandlerInstanceResolver resolver)
         {
@@ -21,6 +22,9 @@ namespace Scritchy.Infrastructure.Implementations
         {
             var instancetype = instance.GetType();
             var enumeratorcontext = instance is AR ? instance : instancetype;
+            object lockKey = instancetype;
+            if (instance is AR)
+                lockKey = (instance as AR).Id;
             foreach (var evt in eventstore.GetNewEvents(instance,enumeratorcontext))
             {
                 if (!this.handlerregistry.ContainsHandler(instancetype,evt.GetType()))
@@ -28,7 +32,13 @@ namespace Scritchy.Infrastructure.Implementations
                 var handler = this.handlerregistry[instancetype, evt.GetType()];
                 try
                 {
-                    handler(instance, evt);
+                    using (var mylock = mySync.Lock(lockKey))
+                    {
+                        lock (lockKey)
+                        {
+                            handler(instance, evt);
+                        }
+                    }
                 }
                 catch (TargetInvocationException e)
                 {

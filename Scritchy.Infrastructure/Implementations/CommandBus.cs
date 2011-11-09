@@ -2,15 +2,19 @@
 using System.Reflection;
 using Scritchy.Infrastructure.Exceptions;
 using System;
+using System.Collections.Generic;
+using Scritchy.Domain;
 
 namespace Scritchy.Infrastructure.Implementations
 {
 
-    public class CommandBus:ICommandBus
+    public class CommandBus : ICommandBus
     {
         public IEventStore eventstore;
         public HandlerRegistry handlerregistry = new HandlerRegistry();
         public IHandlerInstanceResolver resolver;
+
+        static readonly Helpers.Synchronizer<string> ArLocker = new Helpers.Synchronizer<string>();
 
         public CommandBus(IEventStore eventstore, HandlerRegistry handlerregistry, IHandlerInstanceResolver resolver)
         {
@@ -25,19 +29,26 @@ namespace Scritchy.Infrastructure.Implementations
             if (key == null)
                 throw new InvalidOperationException("No handler found for the commands of type " + Command.GetType().Name);
             var id = Command.GetType().GetProperty(key.InstanceType.Name + "Id").GetValue(Command, null) as string;
-            var ar = resolver.LoadARSnapshot(key.InstanceType, id);
-
-            var handler = handlerregistry[key];
+            Guid index = Guid.NewGuid();
+            AR ar = null;
             try
             {
-                handler(ar, Command);
+                var handler = handlerregistry[key];
+                using (var mylock = ArLocker.Lock(id))
+                {
+                    lock (mylock)
+                    {
+                        ar = resolver.LoadARSnapshot(key.InstanceType, id);
+                        handler(ar, Command);
+                    }
+                }
             }
             catch (TargetInvocationException ex)
             {
-                throw new FailedCommandException(ex.InnerException,Command);
+                throw new FailedCommandException(ex.InnerException, Command);
             }
             if (!eventstore.SaveEvents(ar.Changes.GetPublishedEvents()))
-                throw new SaveEventsException {Events = ar.Changes.GetPublishedEvents()};
+                throw new SaveEventsException { Events = ar.Changes.GetPublishedEvents() };
         }
 
     }

@@ -39,6 +39,7 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage
 
         Dictionary<object,int> EnumeratorContexts = new Dictionary<object,int>();
         object GlobalEnumeratorContext = new object();
+        object lockobject = new object();
 
         public IEnumerable<object> GetNewEvents(object Instance = null, object EnumeratorContext = null)
         {
@@ -46,8 +47,11 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage
             {
                 EnumeratorContext = Instance??GlobalEnumeratorContext;
             }
-            if (!EnumeratorContexts.ContainsKey(EnumeratorContext))
-                EnumeratorContexts.Add(EnumeratorContext,0);
+            lock (lockobject)
+            {
+                if (!EnumeratorContexts.ContainsKey(EnumeratorContext))
+                    EnumeratorContexts.Add(EnumeratorContext, 0);
+            }
             var idfrom = EnumeratorContexts[EnumeratorContext];
             IEnumerable<EventBlob> q;
             var ar = Instance as Scritchy.Domain.AR;
@@ -65,7 +69,10 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage
             {
                 var t = Type.GetType(e.TypeFullName);
                 var obj = serializer.Deserialize(e);
-                EnumeratorContexts[EnumeratorContext] += 1;
+                lock (lockobject)
+                {
+                    EnumeratorContexts[EnumeratorContext]++;
+                }
                 yield return obj;
             }
         }

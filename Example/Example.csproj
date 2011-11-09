@@ -33,6 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.0.3.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Scritchy.Domain, Version=0.1.0.25135, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scritchy.0.1.0.11\lib\net35\Scritchy.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="Scritchy.Infrastructure, Version=0.1.0.25686, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scritchy.0.1.0.11\lib\net35\Scritchy.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,17 +58,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App_Data\eventstore.sqlite" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Scritchy.Domain\Scritchy.Domain.csproj">
-      <Project>{23B6186A-962F-43C5-9ED4-3E7D75B9DE2D}</Project>
-      <Name>Scritchy.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scritchy.Infrastructure\Scritchy.Infrastructure.csproj">
-      <Project>{085412FE-55C2-4AC5-8B37-1638BF953CCF}</Project>
-      <Name>Scritchy.Infrastructure</Name>
-    </ProjectReference>
+    <Content Include="App_Data\Eventstore.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />

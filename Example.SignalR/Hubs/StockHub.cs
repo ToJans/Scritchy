@@ -39,16 +39,15 @@ namespace Example.SignalR.Hubs
         {
             var t = Type.GetType(fulltypename);
             var obj = JsonConvert.DeserializeObject(serializeddata, t);
-            try
-            {
-                bus.RunCommand(obj);
-                Clients.updateStockList(dict);
-            }
-            catch (Exception e)
-            {
-                Caller.alert(e.Message);
-            }
+
+            bus.RunCommandAsync(obj, rwce => { 
+                if (rwce.Error == null)
+                    Clients.updateStockList(dict);
+                else
+                    Caller.alert(rwce.Error.Message);
+            });
         }
+
 
         void InitializeCommands()
         {

@@ -61,16 +61,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Scritchy.Domain\Scritchy.Domain.csproj">
-      <Project>{23B6186A-962F-43C5-9ED4-3E7D75B9DE2D}</Project>
-      <Name>Scritchy.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Implementations\EventStorage\Adapters\DBScripts\System.Data.SQLite.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Scritchy.Domain\Scritchy.Domain.csproj">
+      <Project>{23B6186A-962F-43C5-9ED4-3E7D75B9DE2D}</Project>
+      <Name>Scritchy.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />

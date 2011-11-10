@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Scritchy.Infrastructure.Implementations
 {
-    // "Muahaha, I've written an LMAX disruptor. I shall ask 1 millon dollars" - Dr. Evil.
+    // "Muahaha, I've written an LMAX disruptor. I shall ask 1 million dollars" - Dr. Evil.
     // Not sure whether this will ever be of practical use, but I just felt like it. 
     
     // Completely untested, so do not shoot me if it blows up on yah !!
@@ -40,6 +40,7 @@ namespace Scritchy.Infrastructure.Implementations
 
         void DarthLocker(uint ThreadNr)
         {
+            if (ThreadNr >= MAXTHREADS) throw new Exception("WTF are you doing mate");
             var i = ThreadPositions[ThreadNr];
             while (ThreadFreeItemsLeft[ThreadNr] == 0)
             {
@@ -64,13 +65,11 @@ namespace Scritchy.Infrastructure.Implementations
         {
             get
             {
-                if (ThreadNr >= MAXTHREADS) throw new Exception("WTF are you doing mate");
                 DarthLocker(ThreadNr);
                 return Items[ThreadPositions[ThreadNr]];
             }
             set
             {
-                if (ThreadNr >= MAXTHREADS) throw new Exception("WTF are you doing mate");
                 DarthLocker(ThreadNr);
                 Items[ThreadPositions[ThreadNr]] = value;
             }

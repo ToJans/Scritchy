@@ -46,6 +46,7 @@
     <Compile Include="Exceptions\FailedCommandException.cs" />
     <Compile Include="Exceptions\SaveEventsException.cs" />
     <Compile Include="Helpers\Synchronizer.cs" />
+    <Compile Include="Implementations\Disruptor\RingBuffer.cs" />
     <Compile Include="ScritchyBus.cs" />
     <Compile Include="Implementations\CommandBus.cs" />
     <Compile Include="Implementations\EventApplier.cs" />

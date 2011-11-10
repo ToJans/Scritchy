@@ -12,7 +12,7 @@ namespace Scritchy.Infrastructure.Implementations
 
     // ToJans@Twitter
 
-    public class Disruptor
+    public class Disruptor<T>
     {
         // you need to init these fields yourself with the proper values before accessing
         public uint[] ThreadPositions = new uint[MAXTHREADS]; // contains the index where each thread currently is
@@ -21,7 +21,7 @@ namespace Scritchy.Infrastructure.Implementations
         // blah
         public const int MAXTHREADS = 32;
         uint RingIndexMask;
-        object[] Items;
+        T[] Items;
 
         
         uint[] ThreadFreeItemsLeft = new uint[MAXTHREADS]; // contains the amount of items a thread can read before it needs to check other thread indexes
@@ -34,7 +34,7 @@ namespace Scritchy.Infrastructure.Implementations
                 ringsize <<= 1;
                 size >>= 1;
             }
-            Items = new object[ringsize];
+            Items = new T[ringsize];
             RingIndexMask = size - 1;
         }
 
@@ -53,6 +53,7 @@ namespace Scritchy.Infrastructure.Implementations
                         if (otheritemsleft < itemsleft)
                             itemsleft = otheritemsleft;
                     }
+                    if (itemsleft == 0) System.Threading.Thread.Sleep(0); //force a thread context switch
                 } while (itemsleft == 0);
 
                 ThreadFreeItemsLeft[ThreadNr] = itemsleft;
@@ -61,7 +62,7 @@ namespace Scritchy.Infrastructure.Implementations
             ThreadPositions[ThreadNr] = (ThreadPositions[ThreadNr]++) & RingIndexMask;
         }
 
-        public object this[uint ThreadNr]
+        public T this[uint ThreadNr]
         {
             get
             {

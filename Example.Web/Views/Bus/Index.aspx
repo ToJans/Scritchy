@@ -170,7 +170,7 @@
         </p>
         <p>
             More info and full source over at <a href="http://github.com/ToJans/Scritchy" target="_blank">
-                github</a>.
+                github</a> or at our <a href="http://groups.google.com/group/scritchy">google group</a>.
         </p>
         <p>
             You find the example code in the following locations:

@@ -22,8 +22,13 @@ namespace Scritchy.Infrastructure
     
     public interface IHandlerInstanceResolver
     {
-        Scritchy.Domain.AR LoadARSnapshot(Type t, string Id);
+        Scritchy.Domain.AR LoadARSnapshot(Type t, string Id,IParameterResolver pr);
         object ResolveHandlerFromType(Type t);
+    }
+
+    public interface IParameterResolver
+    {
+        IEnumerable<object> ResolveParameters(IEnumerable<KeyValuePair<string, Type>> ParametersToResolve, object message);
     }
 
 

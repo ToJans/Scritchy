@@ -13,14 +13,16 @@ namespace Scritchy.Infrastructure.Implementations
         public IEventStore eventstore;
         public HandlerRegistry handlerregistry = new HandlerRegistry();
         public IHandlerInstanceResolver resolver;
+        IParameterResolver ParameterResolver;
 
         static readonly Helpers.Synchronizer<string> ArLocker = new Helpers.Synchronizer<string>();
 
-        public CommandBus(IEventStore eventstore, HandlerRegistry handlerregistry, IHandlerInstanceResolver resolver)
+        public CommandBus(IEventStore eventstore, HandlerRegistry handlerregistry, IHandlerInstanceResolver resolver,IParameterResolver ParameterResolver)
         {
             this.eventstore = eventstore;
             this.handlerregistry = handlerregistry;
             this.resolver = resolver;
+            this.ParameterResolver = ParameterResolver;
         }
 
         public void RunCommand(object Command)
@@ -40,8 +42,8 @@ namespace Scritchy.Infrastructure.Implementations
                     {
                         lock (mylock)
                         {
-                            ar = resolver.LoadARSnapshot(key.InstanceType, id);
-                            handler(ar, Command);
+                            ar = resolver.LoadARSnapshot(key.InstanceType, id,ParameterResolver);
+                            handler(ar, Command,ParameterResolver);
                         }
                     }
                 }

@@ -67,7 +67,7 @@ namespace Scritchy.Infrastructure.Configuration
             }
 
             RegisterHandlers(ARTypes, CommandTypes);
-            RegisterHandlers(EventHandlers, EventTypes, "On");
+            RegisterHandlers(EventHandlers, EventTypes,"On");
         }
 
     }

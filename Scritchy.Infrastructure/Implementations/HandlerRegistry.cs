@@ -7,18 +7,18 @@ namespace Scritchy.Infrastructure.Implementations
 {
     public class HandlerRegistry
     {
-        Dictionary<RegistrationKey, Action<object, object>> Handlers = new Dictionary<RegistrationKey, Action<object, object>>();
+        Dictionary<RegistrationKey, Action<object, object,IParameterResolver>> Handlers = new Dictionary<RegistrationKey, Action<object, object,IParameterResolver>>();
 
-        public void Register(Type handlertype, Type messagetype, Action<object, object> handle)
+        public void Register(Type handlertype, Type messagetype, Action<object, object,IParameterResolver> handle)
         {
             var key = new RegistrationKey(handlertype, messagetype);
             if (Handlers.ContainsKey(key))
             {
                 var oldhandle = Handlers[key];
-                Handlers[key] = (instance, message) =>
+                Handlers[key] = (instance, message,pr) =>
                 {
-                    oldhandle(instance, message);
-                    handle(instance, message);
+                    oldhandle(instance, message,pr);
+                    handle(instance, message,pr);
                 };
             }
             else
@@ -37,7 +37,12 @@ namespace Scritchy.Infrastructure.Implementations
                     var eventtype = EventTypes.Where(x => x.Name == methodname.Substring(methodnameprefix.Length)).FirstOrDefault();
                     if (eventtype == null)
                         continue;
-                    var invoker = ReflectionHelper.GetMessageInvokerAction(ARType, eventtype, methodname);
+                    var props = eventtype.GetProperties().ToDictionary(x=>x.Name,x=>x.PropertyType);
+                    Action<object,object[]> invoke = (instance,parameters) => ARType.GetMethod(methodname).Invoke(instance,parameters);
+                    Action<object, object,IParameterResolver> invoker = (instance, message,pr) => {
+                        var pars = pr.ResolveParameters(props, message).ToArray();
+                        invoke(instance, pars);
+                    };
                     this.Register(ARType, eventtype, invoker);
                 }
             }
@@ -52,7 +57,7 @@ namespace Scritchy.Infrastructure.Implementations
             }
         }
 
-        public Action<object, object> this[Type instanceType, Type eventtype]
+        public Action<object, object,IParameterResolver> this[Type instanceType, Type eventtype]
         {
             get
             {
@@ -60,7 +65,7 @@ namespace Scritchy.Infrastructure.Implementations
             }
         }
 
-        public Action<object, object> this[RegistrationKey key]
+        public Action<object, object, IParameterResolver> this[RegistrationKey key]
         {
             get
             {

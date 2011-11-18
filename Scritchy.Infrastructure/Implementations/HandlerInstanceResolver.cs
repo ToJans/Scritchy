@@ -16,26 +16,26 @@ namespace Scritchy.Infrastructure.Implementations
             this.LoadHandler = LoadHandler;
         }
 
-        public void ApplyEventsToInstance(object instance)
+        public void ApplyEventsToInstance(object instance,IParameterResolver pr)
         {
             var instancetype = instance.GetType();
             foreach (var evt in eventsource.GetNewEvents(instance))
             {
                 if(this.handlerregistry.ContainsHandler(instancetype,evt.GetType()))
-                    this.handlerregistry[instancetype, evt.GetType()](instance, evt);
+                    this.handlerregistry[instancetype, evt.GetType()](instance, evt, pr);
             }
         }
 
 
-        public AR LoadARSnapshot(Type t, string Id)
+        public AR LoadARSnapshot(Type t, string Id,IParameterResolver pr)
         {
             var ar = Activator.CreateInstance(t) as AR;
             ar.Id = Id;
             ar.TryApplyEvent = x => {
                 if (handlerregistry.ContainsHandler(t, x.GetType()))
-                    handlerregistry[t, x.GetType()](ar, x);
+                    handlerregistry[t, x.GetType()](ar, x,pr);
             };
-            ApplyEventsToInstance(ar);
+            ApplyEventsToInstance(ar,pr);
             return ar;
         }
 

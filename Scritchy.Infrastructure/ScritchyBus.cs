@@ -14,17 +14,19 @@ namespace Scritchy.Infrastructure
         ICommandBus Bus;
         IHandlerInstanceResolver resolver;
         IEventApplier applier;
+        IParameterResolver ParameterResolver;
         bool DoNotApplyEvents = false;
         
         public ScritchyBus(Func<Type, object> LoadHandler = null, IEventstoreAdapter adapter = null, bool DoNotApplyEvents = false)
         {
             if (LoadHandler == null)
                 LoadHandler = x => Activator.CreateInstance(x);
-            Registry = new ConventionBasedRegistry();
             EventStore = new Scritchy.Infrastructure.Implementations.EventStorage.EventStore(adapter: adapter);
+            Registry = new ConventionBasedRegistry();
             resolver = new HandlerInstanceResolver(EventStore, Registry, LoadHandler);
-            Bus = new CommandBus(EventStore, Registry, resolver);
-            applier = new EventApplier(EventStore, Registry, resolver);
+            ParameterResolver = new ParameterResolver(resolver);
+            Bus = new CommandBus(EventStore, Registry, resolver,ParameterResolver);
+            applier = new EventApplier(EventStore, Registry, resolver,ParameterResolver);
             this.DoNotApplyEvents = DoNotApplyEvents;
         }
 

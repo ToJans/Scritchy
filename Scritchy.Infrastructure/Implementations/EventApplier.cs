@@ -9,13 +9,15 @@ namespace Scritchy.Infrastructure.Implementations
         IEventStore eventstore;
         HandlerRegistry handlerregistry;
         IHandlerInstanceResolver resolver;
+        IParameterResolver parameterresolver;
         static readonly Helpers.Synchronizer<object> mySync = new Helpers.Synchronizer<object>();
 
-        public EventApplier(IEventStore eventstore, HandlerRegistry handlerregistry, IHandlerInstanceResolver resolver)
+        public EventApplier(IEventStore eventstore, HandlerRegistry handlerregistry, IHandlerInstanceResolver resolver,IParameterResolver parameterresolver)
         {
             this.eventstore = eventstore;
             this.handlerregistry = handlerregistry;
             this.resolver = resolver;
+            this.parameterresolver = parameterresolver;
         }
 
         public void ApplyEventsToInstance(object instance)
@@ -36,7 +38,7 @@ namespace Scritchy.Infrastructure.Implementations
                     {
                         lock (lockKey)
                         {
-                            handler(instance, evt);
+                            handler(instance, evt,parameterresolver);
                         }
                     }
                 }

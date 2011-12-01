@@ -37,9 +37,13 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.0.3\lib\net35\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.470\lib\net35\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConventionBasedRegistry.cs" />
@@ -47,6 +51,8 @@
     <Compile Include="Exceptions\SaveEventsException.cs" />
     <Compile Include="Helpers\Synchronizer.cs" />
     <Compile Include="Implementations\Disruptor.cs" />
+    <Compile Include="Implementations\EventStorage\Adapters\FileStorageStreamGetter.cs" />
+    <Compile Include="Implementations\EventStorage\Adapters\StreamAdapter.cs" />
     <Compile Include="Implementations\EventStorage\Adapters\ShardedAdapter.cs" />
     <Compile Include="Implementations\ParameterResolver.cs" />
     <Compile Include="ScritchyBus.cs" />

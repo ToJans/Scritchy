@@ -10,8 +10,6 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
         List<EventHeader> Headers = new List<EventHeader>();
         static object lockobj = new object();
 
-
-
         public bool SaveEvent(EventBlob blob, IEnumerable<EventHeader> headers)
         {
             lock (lockobj)

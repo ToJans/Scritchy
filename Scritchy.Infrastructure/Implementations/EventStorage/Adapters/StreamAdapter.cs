@@ -39,16 +39,18 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
             {
                 writerstreams.Add(name, OpenStream(name,StreamAccess.ForWriting));
             }
-            writerstreams[name].Seek(0, SeekOrigin.End);
             return writerstreams[name];
         }
 
         public bool SaveEvent(Models.EventBlob blob, IEnumerable<Models.EventHeader> Headers)
         {
             ProtoBuf.Serializer.SerializeWithLengthPrefix(GetWriterStream(GLOBAL), blob, ProtoBuf.PrefixStyle.Base128);
+            GetWriterStream(GLOBAL).Flush();
             foreach (var h in Headers)
             {
-                ProtoBuf.Serializer.SerializeWithLengthPrefix(GetWriterStream(HeaderStreamname(h)), blob, ProtoBuf.PrefixStyle.Base128);
+                var str = GetWriterStream(HeaderStreamname(h));
+                ProtoBuf.Serializer.SerializeWithLengthPrefix(str, blob, ProtoBuf.PrefixStyle.Base128);
+                str.Flush();
             }
             return true;
         }
@@ -77,7 +79,7 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
             return ReadAllFromStream<Models.EventBlob>(strname, fromid);
         }
 
-        IEnumerable<T> ReadAllFromStream<T>(string name,long fromid = 0)
+        IEnumerable<T> ReadAllFromStream<T>(string name,long fromid = 0) where T:class 
         {
             using (var stream = OpenStream(name,StreamAccess.ForReading))
             {
@@ -87,22 +89,20 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
                 bool eos = false;
                 while (!eos)
                 {
-                    T v = default(T);
-                    bool readok = false;
-                    try
-                    {
-                        stream.Seek(pos.position, SeekOrigin.Begin);
-                        v = ProtoBuf.Serializer.DeserializeWithLengthPrefix<T>(stream, ProtoBuf.PrefixStyle.Base128);
-                        readok = true;
-                    }
-                    catch (EndOfStreamException)
+                    T v = null;
+                    stream.Seek(pos.position, SeekOrigin.Begin);
+                    v = ProtoBuf.Serializer.DeserializeWithLengthPrefix<T>(stream, ProtoBuf.PrefixStyle.Base128);
+                    if (v == null)
                     {
                         eos = true;
                     }
-                    if (readok && pos.index >= fromid)
-                        yield return v;
-                    pos.index++;
-                    pos.position = stream.Position;
+                    else
+                    {
+                        if (pos.index >= fromid)
+                            yield return v;
+                        pos.index++;
+                        pos.position = stream.Position;
+                    }
                 }
             }
         }

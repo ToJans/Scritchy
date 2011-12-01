@@ -10,7 +10,8 @@ namespace Scritchy.Infrastructure.Implementations.EventStorage.Adapters
     {
         public static Stream GetStreamForFileName(string filename, StreamAdapter.StreamAccess access)
         {
-            return File.Open(filename, FileMode.OpenOrCreate,access == StreamAdapter.StreamAccess.ForReading ? FileAccess.Read : FileAccess.Write);
+            var acc = access == StreamAdapter.StreamAccess.ForReading ? FileAccess.Read : FileAccess.Write;
+            return File.Open(filename, FileMode.OpenOrCreate,acc,FileShare.ReadWrite);
         }
     }
 }

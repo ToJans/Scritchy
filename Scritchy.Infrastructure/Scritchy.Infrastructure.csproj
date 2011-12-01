@@ -47,6 +47,7 @@
     <Compile Include="Exceptions\SaveEventsException.cs" />
     <Compile Include="Helpers\Synchronizer.cs" />
     <Compile Include="Implementations\Disruptor.cs" />
+    <Compile Include="Implementations\EventStorage\Adapters\ShardedAdapter.cs" />
     <Compile Include="Implementations\ParameterResolver.cs" />
     <Compile Include="ScritchyBus.cs" />
     <Compile Include="Implementations\CommandBus.cs" />

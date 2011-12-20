@@ -23,8 +23,10 @@ namespace Scritchy.Infrastructure.Configuration
         {
             var ARTypes = new List<Type>();
             var EventHandlers = new List<Type>();
+            var Validators = new List<Type>();
             var PossibleCommandNames = new List<string>();
             var PossibleEventNames = new List<string>();
+            var PossibleValidatorNames = new List<string>();
             var CommandTypes = new List<Type>();
             var EventTypes = new List<Type>();
 
@@ -50,6 +52,12 @@ namespace Scritchy.Infrastructure.Configuration
                         if (!EventHandlers.Contains(t))
                             EventHandlers.Add(t);
                     }
+                    if (methodname.StartsWith("Can") && methodname.Length > 3 && methodname[3] == methodname.ToUpper()[3])
+                    {
+                        PossibleCommandNames.Add(methodname.Substring(3));
+                        if (!Validators.Contains(t))
+                            Validators.Add(t);
+                    }
                     PossibleCommandNames.Add(methodname);
                 }
             }
@@ -63,9 +71,10 @@ namespace Scritchy.Infrastructure.Configuration
                 {
                     CommandTypes.Add(t);
                 }
-
             }
-
+            
+            // ordering is important here
+            RegisterHandlers(Validators, CommandTypes, "Can");
             RegisterHandlers(ARTypes, CommandTypes);
             RegisterHandlers(EventHandlers, EventTypes,"On");
         }

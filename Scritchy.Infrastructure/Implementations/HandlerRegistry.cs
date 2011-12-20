@@ -27,23 +27,29 @@ namespace Scritchy.Infrastructure.Implementations
             }
         }
 
-        public void RegisterHandlers(IEnumerable<Type> ARTypes, IEnumerable<Type> EventTypes,string methodnameprefix="")
+        public void RegisterHandlers(IEnumerable<Type> InstanceTypes, IEnumerable<Type> MessageTypes,string methodnameprefix="")
         {
-            foreach (var ARType in ARTypes)
+            foreach (var InstanceType in InstanceTypes)
             {
-                var methodnames = ARType.GetMethods().Where(x => x.ReturnType == typeof(void) && x.Name.StartsWith(methodnameprefix)).Select(x => x.Name).ToArray();
+                var methodnames = InstanceType.GetMethods().Where(x => 
+                    x.ReturnType == typeof(void) && 
+                    x.Name.StartsWith(methodnameprefix) && 
+                    (x.GetBaseDefinition()==null || x.GetBaseDefinition().DeclaringType != typeof(Scritchy.Domain.AR))
+                    ).Select(x => x.Name).ToArray();
                 foreach (var methodname in methodnames)
                 {
-                    var eventtype = EventTypes.Where(x => x.Name == methodname.Substring(methodnameprefix.Length)).FirstOrDefault();
-                    if (eventtype == null)
+                    var messagetype = MessageTypes.Where(x => x.Name == methodname.Substring(methodnameprefix.Length)).FirstOrDefault();
+                    if (messagetype == null)
                         continue;
-                    var props = eventtype.GetProperties().ToDictionary(x=>x.Name,x=>x.PropertyType);
-                    Action<object,object[]> invoke = (instance,parameters) => ARType.GetMethod(methodname).Invoke(instance,parameters);
+                    var localmn = methodname;
+                    var localinstancetype = InstanceType;
+                    var props = localinstancetype.GetMethod(localmn).GetParameters().ToDictionary(x => x.Name, x => x.ParameterType);
+                    Action<object,object[]> invoke = (instance,parameters) => localinstancetype.GetMethod(localmn).Invoke(instance,parameters);
                     Action<object, object,IParameterResolver> invoker = (instance, message,pr) => {
                         var pars = pr.ResolveParameters(props, message).ToArray();
                         invoke(instance, pars);
                     };
-                    this.Register(ARType, eventtype, invoker);
+                    this.Register(InstanceType, messagetype, invoker);
                 }
             }
         }

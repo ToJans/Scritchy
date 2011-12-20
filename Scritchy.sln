@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scritchy.Infrastructure", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.SignalR", "Example.SignalR\Example.SignalR.csproj", "{0D809036-CDF3-4C69-B2B2-FED8827DA532}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scritchy.Scenarios", "Scritchy.Scenarios\Scritchy.Scenarios.csproj", "{445618C1-BD91-4863-B442-4F4D9620F215}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{0D809036-CDF3-4C69-B2B2-FED8827DA532}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D809036-CDF3-4C69-B2B2-FED8827DA532}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D809036-CDF3-4C69-B2B2-FED8827DA532}.Release|Any CPU.Build.0 = Release|Any CPU
+		{445618C1-BD91-4863-B442-4F4D9620F215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445618C1-BD91-4863-B442-4F4D9620F215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445618C1-BD91-4863-B442-4F4D9620F215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445618C1-BD91-4863-B442-4F4D9620F215}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

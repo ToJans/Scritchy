@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="AR.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="Guard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

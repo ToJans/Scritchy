@@ -27,7 +27,7 @@ namespace Scritchy.Infrastructure.Implementations
 
         public void RunCommand(object Command)
         {
-            var keys = handlerregistry.RegisteredHandlers.Where(x => x.MessageType == Command.GetType());
+            var keys = handlerregistry.RegisteredHandlers.Where(x => x.MessageType.IsInstanceOfType(Command));
             if (!keys.Any() )
                 throw new InvalidOperationException("No handler found for the commands of type " + Command.GetType().Name);
             foreach (var key in keys)
